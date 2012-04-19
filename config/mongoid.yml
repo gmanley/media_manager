@@ -1,0 +1,18 @@
+shared: &shared_settings
+  identity_map_enabled: true
+
+development:
+  <<: *shared_settings
+  host: localhost
+  database: media_manager_development
+
+test:
+  <<: *shared_settings
+  host: localhost
+  database: media_manager_test
+
+# set these environment variables on your prod server
+production:
+  <<: *shared_settings
+  host: localhost
+  database: media_manager_production
