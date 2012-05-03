@@ -29,6 +29,8 @@ gem 'progressbar'
 gem 'nokogiri'
 gem 'nori'
 
+gem 'sidekiq'
+
 group :development do
   gem 'thin'
   gem 'pry-rails'

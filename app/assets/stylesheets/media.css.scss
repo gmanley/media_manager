@@ -1,3 +1,29 @@
 body.media {
   // Place scoped styles here.
+
+  .thumbnails {
+
+    li {
+      &:first-child {
+        margin: 0 0 18px 20px;
+      }
+
+      margin: 0 0 18px 20px;
+
+      .thumbnail  {
+        $thumbnail-height:360px;
+        height:$thumbnail-height;
+
+        .thumbnail-title {
+          text-align: center;
+          padding: 8px 0px;
+          color:black;
+        }
+
+        img {
+          max-height: $thumbnail-height - 20;
+        }
+      }
+    }
+  }
 }
