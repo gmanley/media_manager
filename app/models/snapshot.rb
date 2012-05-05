@@ -9,8 +9,6 @@ class Snapshot
 
   field :video_time, type: Float
 
-  before_save :generate_image
-
   def generate_image
     Dir.mktmpdir do |dir|
       snapshot_path = File.join(dir, "#{File.basename(media.file_path)}_snapshot#{video_time}.png")

@@ -51,7 +51,7 @@ class Media
     raw_response = %x[mediainfo #{file_path.shellescape} --Output=XML]
     parsed_response = Nori.parse(raw_response)[:mediainfo][:file]
     parsed_response[:tracks] = parsed_response.delete(:track)
-    general = parsed_response[:tracks].find {|track| track[:type].eql?('General') && track.delete(:type) }
+    general = parsed_response[:tracks].find { |track| track[:type].eql?('General') && track.delete(:type) }
     parsed_response.merge!(parsed_response[:tracks].delete(general))
     self.file_metadata = parsed_response
   rescue StandardError => e

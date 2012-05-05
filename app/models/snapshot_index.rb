@@ -3,7 +3,7 @@ class SnapshotIndex
   include Mongoid::Timestamps
 
   embedded_in :media, class_name: 'Media'
-  embeds_many :snapshots
+  embeds_many :snapshots, cascade_callbacks: true
 
   mount_uploader :image, ImageUploader
 
@@ -21,17 +21,15 @@ class SnapshotIndex
     snapshot_count, video_time = 0, 0
 
     until snapshot_count == total_snapshots
-      snapshot = Snapshot.new
-
       snapshot_count += 1
 
       video_time += increment
       video_time = (video_time - increment / total_snapshots).floor
-      snapshot.video_time = video_time
 
-      self.snapshots << snapshot
+      snapshot = self.snapshots.new(video_time: video_time)
+      snapshot.generate_image
+      snapshot.save
     end
-    save
   end
 
   def create_index_image
