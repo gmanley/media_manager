@@ -1,6 +1,14 @@
 %h1=@media.file_name
-%img{src: @media.poster_url}
-%img{src: @media.thumbnail_url}
+= image_tag(@media.snapshot_index.image_url(:thumb))
+#myCarousel.carousel.slide
+  .carousel-inner
+    - @media.snapshots.each_with_index do |snapshot, i|
+      .item{class: i.eql?(0) ? 'active' : nil}
+        = image_tag(snapshot.image_url(:thumb))
+        .carousel-caption
+          %p=snapshot.video_time
+  %a.left.carousel-control{href: '#myCarousel', data: {slide: 'prev'}} ‹
+  %a.right.carousel-control{href: '#myCarousel', data: {slide: 'next'}} ›
 %ul
   %li=@media.file_path
   %li=@media.file_hash
