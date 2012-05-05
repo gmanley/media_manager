@@ -141,6 +141,7 @@ GEM
       redis (< 3.0.0)
     responders (0.9.1)
       railties (~> 3.1)
+    rmagick (2.13.1)
     sass (3.1.15)
     sass-rails (3.2.5)
       railties (~> 3.2.0)
@@ -195,6 +196,7 @@ DEPENDENCIES
   pry-rails
   rails (~> 3.2)
   responders
+  rmagick
   sass-rails (~> 3.2)
   sidekiq
   thin
