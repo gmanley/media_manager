@@ -21,8 +21,9 @@ class Media
   VIDEO_EXTENSIONS = ['.3gp', '.asf', '.asx', '.avi', '.flv', '.iso', '.m2t', '.m2ts', '.m2v', '.m4v',
                       '.mkv', '.mov', '.mp4', '.mpeg', '.mpg', '.mts', '.ts', '.tp', '.trp', '.vob', '.wmv', '.swf']
 
-  def self.scan(path)
-    files = Find.find(path).find_all {|p| FileTest.file?(p) && VIDEO_EXTENSIONS.include?(File.extname(p).downcase)}.sample(50)
+  def self.scan(path, limit = nil)
+    files = Find.find(path).find_all {|p| FileTest.file?(p) && VIDEO_EXTENSIONS.include?(File.extname(p).downcase)}
+    files = files.sample(limit) if limit
     progress_bar = ProgressBar.new('Media Scanner', files.count)
     files.each do |file_path|
       create(file_path: file_path, file_name: File.basename(file_path.mb_chars.compose.to_s))
