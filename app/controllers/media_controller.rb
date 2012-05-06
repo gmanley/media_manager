@@ -1,8 +1,8 @@
 class MediaController < ApplicationController
-  respond_to :html, :json, :js
+  respond_to :html
 
   def index
-    @media = Media.all.page(params[:page]).per(100)
+    @media = Media.page(params[:page]).per(50)
     respond_with(@media)
   end
 
