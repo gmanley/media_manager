@@ -6,7 +6,6 @@ class Media
   include Mongoid::Document
   include Mongoid::Timestamps
 
-  # has_many   :segments
   embeds_one :snapshot_index
   delegate   :snapshots, to: :snapshot_index
 
@@ -44,7 +43,7 @@ class Media
   end
 
   def video_resolution
-    @video_resolution ||= %w[width height].collect { |k| file_metadata['tracks'][0][k].gsub(/\D/, '').to_i }
+    @video_resolution ||= %w[width height].collect { |k| file_metadata['tracks'][0][k].gsub(/\D/, '').to_i } if file_metadata
   end
 
   def duration
