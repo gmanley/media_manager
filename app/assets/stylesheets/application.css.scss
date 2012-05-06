@@ -1,35 +1,14 @@
-/*
- *= require bootstrap
- *= require bootstrap-responsive
- *= require_self
- *= require_tree .
-*/
+@import 'bourbon';
+@import 'bootstrap';
+@import 'media';
 
 body {
-  color:#444;
-}
+  color:#444 }
+
+.page-header h1 {
+  text-align: center }
 
 footer {
   margin-top:40px;
   border-top:1px solid #E5E5E5;
-  padding:35px 0 36px;
-}
-
-.home, .categories {
-  .thumbnail {
-    padding: 15px 15px 0px 15px;
-    width: 200px;
-    height: 250px;
-
-    img {
-      border: 1px solid #D3D3D3;
-      width: 200px;
-      height: 200px;
-    }
-
-    .thumbnail-title {
-      text-align: center;
-      padding: 8px 0px;
-    }
-  }
-}
+  padding:35px 0 36px }

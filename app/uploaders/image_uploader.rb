@@ -12,6 +12,10 @@ class ImageUploader < CarrierWave::Uploader::Base
     resize_to_fit(600, 600)
   end
 
+  version :tiny do
+    resize_to_fill(75, 75, 'North')
+  end
+
   def store_dir
     File.join('uploads', 'images', model.id.to_s)
   end

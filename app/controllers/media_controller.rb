@@ -10,21 +10,4 @@ class MediaController < ApplicationController
     @media = Media.find(params[:id])
     respond_with(@media)
   end
-
-  def edit
-    @media = Media.find(params[:id])
-    respond_with(@media)
-  end
-
-  def update
-    @media = Media.find(params[:id])
-    @media.update_attributes(params[:media])
-    respond_with(@media)
-  end
-
-  def destroy
-    @media = Media.find(params[:id])
-    @media.destroy
-    respond_with(@media, location: root_path)
-  end
 end

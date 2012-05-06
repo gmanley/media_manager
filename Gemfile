@@ -5,6 +5,7 @@ gem 'rails', '~> 3.2'
 gem 'haml-rails'
 gem 'coffee-filter'
 gem 'coffeebeans'
+gem 'bourbon', git: 'git://github.com/thoughtbot/bourbon.git'
 
 group :assets do
   gem 'sass-rails',   '~> 3.2'

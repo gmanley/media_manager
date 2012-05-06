@@ -1,29 +1,68 @@
 body.media {
-  // Place scoped styles here.
+  &.show {
+    .rslides {
+      position: relative;
+      list-style: none;
+      overflow: hidden;
+      width: 100%;
+      padding: 0;
+      margin: 0 auto;
 
-  .thumbnails {
+      li {
+        position: absolute;
+        display: none;
+        width: 100%;
+        left: 0;
+        top: 0;
 
-    li {
-      &:first-child {
+        &:first-child {
+          position: relative;
+          display: block;
+          float: left } }
+
+      img {
+        display: block;
+        height: auto;
+        float: left;
+        width: 100%;
+        border: 0 } } }
+
+    .rslides_tabs {
+      list-style: none;
+      @include box-shadow(0 0 1px rgba(255, 255, 255, 0.3), inset 0 0 5px rgba(0, 0, 0, 1));
+      @include linear-gradient(top, #333, #222);
+      margin: 0 auto;
+      max-width: 800px;
+      height:100px;
+
+      li {
+        float: left;
+        margin: 12px 6px;
+
+        &:first-child {
+          margin-left:14px }
+
+        a {
+          img {
+            height:75px } } } }
+
+  &.index {
+    .thumbnails {
+
+      li {
+        &:first-child {
+          margin: 0 0 18px 20px }
+
         margin: 0 0 18px 20px;
-      }
 
-      margin: 0 0 18px 20px;
+        .thumbnail  {
+          $thumbnail-height: 360px;
+          height: $thumbnail-height;
 
-      .thumbnail  {
-        $thumbnail-height:360px;
-        height:$thumbnail-height;
+          .thumbnail-title {
+            text-align: center;
+            padding: 8px 0px;
+            color: black }
 
-        .thumbnail-title {
-          text-align: center;
-          padding: 8px 0px;
-          color:black;
-        }
-
-        img {
-          max-height: $thumbnail-height - 20;
-        }
-      }
-    }
-  }
-}
+          img {
+            max-height: $thumbnail-height - 20 } } } } } }
