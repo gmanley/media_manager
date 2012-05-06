@@ -8,5 +8,5 @@
 %ul.rslides_tabs.rslides1_tabs
   - @media.snapshots.each_with_index do |snapshot, i|
     %li
-      = link_to '#', class: "rslides1_s#{i + 1} #{(i.eql?(0) ? 'rslides_here' : nil)}" do
+      = link_to '#', class: "rslides1_s#{i + 1}" do
         = image_tag(snapshot.image_url(:tiny))

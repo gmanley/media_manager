@@ -50,19 +50,15 @@ body.media {
     .thumbnails {
 
       li {
-        &:first-child {
-          margin: 0 0 18px 20px }
-
         margin: 0 0 18px 20px;
 
         .thumbnail  {
-          $thumbnail-height: 360px;
-          height: $thumbnail-height;
+          height: 360px;
 
           .thumbnail-title {
             text-align: center;
-            padding: 8px 0px;
+            padding: 5px 0px;
             color: black }
 
           img {
-            max-height: $thumbnail-height - 20 } } } } } }
+            max-height: 340px } } } } } }
