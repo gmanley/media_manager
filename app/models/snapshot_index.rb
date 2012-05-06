@@ -38,7 +38,7 @@ class SnapshotIndex
 
     snapshots.each do |snapshot|
       image = Magick::Image.from_blob(snapshot.image.read).first
-      image.annotate(Magick::Draw.new, 0, 0, 50, 10, snapshot.formated_time) do
+      image.annotate(Magick::Draw.new, 0, 0, 50, 10, snapshot.formated_video_time) do
         self.font_family = 'Helvetica'
         self.fill = 'white'
         self.stroke = 'black'

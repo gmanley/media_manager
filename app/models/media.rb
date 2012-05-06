@@ -32,12 +32,23 @@ class Media
     progress_bar.finish
   end
 
+  def self.formated_duration_from_seconds(duration)
+    hours = (duration / 3600)
+    minutes = (duration / 60) - (hours * 60)
+    seconds = duration % 60
+    "%02d:" % hours + "%02d:" % minutes + "%02d" % seconds
+  end
+
+  def formated_duration
+    self.class.formated_duration_from_seconds(duration) if duration
+  end
+
   def video_resolution
     @video_resolution ||= %w[width height].collect { |k| file_metadata['tracks'][0][k].gsub(/\D/, '').to_i }
   end
 
   def duration
-    if match = file_metadata['duration'].match(/((?<h>\d+)h )?((?<m>\d+)mn )?((?<s>\d+)s)?/)
+    if file_metadata && match = file_metadata['duration'].match(/((?<h>\d+)h )?((?<m>\d+)mn )?((?<s>\d+)s)?/)
       @duration ||= ((match[:h].to_i || 0) * 60 * 60) + ((match[:m].to_i || 0) * 60) + match[:s].to_i
     end
   end
