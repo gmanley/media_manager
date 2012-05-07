@@ -12,9 +12,10 @@ class Media
   field :file_metadata, type: Hash
   field :file_path,     type: String
   field :file_hash,     type: String
-  field :file_name,     type: String
+  field :name,          type: String
+  field :air_date,      type: Date
 
-  before_create :set_metadata, :find_heuristic_hash
+  before_create :set_metadata, :find_heuristic_hash, :normalize_name
   after_create :async_generate_snapshots
 
   VIDEO_EXTENSIONS = ['.3gp', '.asf', '.asx', '.avi', '.flv', '.iso', '.m2t', '.m2ts', '.m2v', '.m4v',
@@ -25,7 +26,7 @@ class Media
     files = files.sample(limit) if limit
     progress_bar = ProgressBar.new('Media Scanner', files.count)
     files.each do |file_path|
-      create(file_path: file_path, file_name: File.basename(file_path.mb_chars.compose.to_s))
+      create(file_path: file_path, name: File.basename(file_path.mb_chars.compose.to_s))
       progress_bar.inc
     end
     progress_bar.finish
@@ -42,6 +43,10 @@ class Media
     self.class.formated_duration_from_seconds(duration) if duration
   end
 
+  def formated_air_date
+    air_date.strftime('%Y.%m.%d')
+  end
+
   def video_resolution
     @video_resolution ||= %w[width height].collect { |k| file_metadata['tracks'][0][k].gsub(/\D/, '').to_i } if file_metadata
   end
@@ -49,6 +54,25 @@ class Media
   def duration
     if file_metadata && match = file_metadata['duration'].match(/((?<h>\d+)h )?((?<m>\d+)mn )?((?<s>\d+)s)?/)
       @duration ||= ((match[:h].to_i || 0) * 60 * 60) + ((match[:m].to_i || 0) * 60) + match[:s].to_i
+    end
+  end
+
+  def normalize_name
+    # TODO: Refactor as this contains logic specific to my use case!
+    prefix = /(?<prefix>\[soshi subs\])/i
+    old_year = /(?<year>(07|08|09|10|11|12))/
+    new_year = /(?<year>(20)(07|08|09|10|11|12))/
+    month = /(?<month>0[1-9]|1[012])/
+    day = /(?<day>0[1-9]|[12][0-9]|3[01])/
+    new_name_format = /(#{prefix})(?<date>\[#{new_year}\.#{month}\.#{day}\])(?<title>.+)/
+    old_name_format = /(#{prefix})(?<title>.+)(?<date>\[#{month}\.#{day}\.#{old_year}\])/
+
+    if match = name.match(new_name_format)
+      self.air_date = Date.strptime(match[:date], '[%Y.%m.%d]')
+      self.name = match[:title].strip
+    elsif match = name.match(old_name_format)
+      self.air_date = Date.strptime(match[:date], '[%m.%d.%y]')
+      self.name = match[:title].strip
     end
   end
 
