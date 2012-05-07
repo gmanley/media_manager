@@ -9,7 +9,7 @@ class Media
   embeds_one :snapshot_index
   delegate   :snapshots, to: :snapshot_index
 
-  field :file_metadata, type: Hash
+  field :file_metadata, type: Hash, default: {}
   field :file_path,     type: String
   field :file_hash,     type: String
   field :name,          type: String
@@ -44,15 +44,15 @@ class Media
   end
 
   def formated_air_date
-    air_date.strftime('%Y.%m.%d')
+    air_date.strftime('%Y.%m.%d') if air_date
   end
 
   def video_resolution
-    @video_resolution ||= %w[width height].collect { |k| file_metadata['tracks'][0][k].gsub(/\D/, '').to_i } if file_metadata
+    @video_resolution ||= %w[width height].collect { |k| file_metadata['video'][0][k].gsub(/\D/, '').to_i } if file_metadata
   end
 
   def duration
-    if file_metadata && match = file_metadata['duration'].match(/((?<h>\d+)h )?((?<m>\d+)mn )?((?<s>\d+)s)?/)
+    if file_metadata && match = file_metadata['general'][0]['duration'].match(/((?<h>\d+)h )?((?<m>\d+)mn )?((?<s>\d+)s)?/)
       @duration ||= ((match[:h].to_i || 0) * 60 * 60) + ((match[:m].to_i || 0) * 60) + match[:s].to_i
     end
   end
@@ -84,10 +84,7 @@ class Media
   def set_metadata
     raw_response = %x[mediainfo #{file_path.shellescape} --Output=XML]
     parsed_response = Nori.parse(raw_response)[:mediainfo][:file]
-    parsed_response[:tracks] = parsed_response.delete(:track)
-    general = parsed_response[:tracks].find { |track| track[:type].eql?('General') && track.delete(:type) }
-    parsed_response.merge!(parsed_response[:tracks].delete(general))
-    self.file_metadata = parsed_response
+    parsed_response[:track].each {|track| self.file_metadata[track.delete(:type).downcase] ||= [] << track }
   rescue StandardError => e
     Rails.logger.warn("Can't parse #{file_path} - Error: #{e}")
   end
