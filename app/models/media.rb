@@ -48,6 +48,10 @@ class Media
     air_date.strftime('%Y.%m.%d') if air_date
   end
 
+  def display_name
+    "[#{formated_air_date}] #{name}"
+  end
+
   def video_resolution
     @video_resolution ||= %w[width height].collect { |k| file_metadata['video'][0][k].gsub(/\D/, '').to_i } if file_metadata
   end
