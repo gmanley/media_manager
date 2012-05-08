@@ -47,6 +47,10 @@ body.media {
             height:75px } } } }
 
   &.index {
+    th.tablesorter-header:hover {
+      cursor:pointer;
+      background-color: #DBDBDB }
+
     .thumbnails {
 
       li {

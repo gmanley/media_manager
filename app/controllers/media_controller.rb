@@ -2,7 +2,7 @@ class MediaController < ApplicationController
   respond_to :html
 
   def index
-    @media = Media.page(params[:page]).per(50)
+    @media = Media.page(params[:page]).per(50).asc(:name)
     respond_with(@media)
   end
 
