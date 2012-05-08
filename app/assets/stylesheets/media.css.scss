@@ -15,6 +15,13 @@ body.media {
         left: 0;
         top: 0;
 
+        .timestamp {
+          position: absolute;
+          bottom: 0;
+          padding:5px;
+          font-size: 30px;
+          color: white }
+
         &:first-child {
           position: relative;
           display: block;

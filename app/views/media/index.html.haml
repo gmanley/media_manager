@@ -2,4 +2,5 @@
   = link_to('Thumbnail View', media_path(view_type: 'thumbnails'), class: 'btn')
   = link_to('Table View', media_path(view_type: 'table'), class: 'btn')
 
-= render "media/index/#{view_type}"
+%section
+  = render "media/index/#{view_type}"

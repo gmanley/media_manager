@@ -3,7 +3,9 @@
 
 %ul.snapshots
   - @media.snapshots.each do |snapshot|
-    %li= image_tag(snapshot.image_url(:thumb))
+    %li
+      = image_tag(snapshot.image_url(:thumb))
+      %p.timestamp=snapshot.formated_video_time
 
 %ul.rslides_tabs.rslides1_tabs
   - @media.snapshots.each_with_index do |snapshot, i|
