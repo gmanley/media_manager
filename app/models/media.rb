@@ -26,7 +26,8 @@ class Media
     files = files.sample(limit) if limit
     progress_bar = ProgressBar.new('Media Scanner', files.count)
     files.each do |file_path|
-      create(file_path: file_path, name: File.basename(file_path.mb_chars.compose.to_s))
+      file_path = file_path.mb_chars.compose.to_s
+      create(file_path: file_path, name: File.basename(file_path, File.extname(file_path)))
       progress_bar.inc
     end
     progress_bar.finish
@@ -59,13 +60,12 @@ class Media
 
   def normalize_name
     # TODO: Refactor as this contains logic specific to my use case!
-    prefix = /(?<prefix>\[soshi subs\])/i
     old_year = /(?<year>(07|08|09|10|11|12))/
     new_year = /(?<year>(20)(07|08|09|10|11|12))/
     month = /(?<month>0[1-9]|1[012])/
     day = /(?<day>0[1-9]|[12][0-9]|3[01])/
-    new_name_format = /(#{prefix})(?<date>\[#{new_year}\.#{month}\.#{day}\])(?<title>.+)/
-    old_name_format = /(#{prefix})(?<title>.+)(?<date>\[#{month}\.#{day}\.#{old_year}\])/
+    new_name_format = /(?<date>\[#{new_year}\.#{month}\.#{day}\])(?<title>.+)/
+    old_name_format = /(?<title>.+)(?<date>\[#{month}\.#{day}\.#{old_year}\])/
 
     if match = name.match(new_name_format)
       self.air_date = Date.strptime(match[:date], '[%Y.%m.%d]')
@@ -74,6 +74,7 @@ class Media
       self.air_date = Date.strptime(match[:date], '[%m.%d.%y]')
       self.name = match[:title].strip
     end
+    self.name = name.gsub(/\[soshi subs\]/i, '')
   end
 
   protected
