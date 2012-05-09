@@ -8,10 +8,10 @@ body.media {
         position: relative;
         list-style: none;
         overflow: hidden;
-        padding: 0;
         margin: 0;
 
         li {
+          margin: 0;
           padding: 10px;
           @include linear-gradient(top, #333, #222);
           position: absolute;
@@ -25,8 +25,7 @@ body.media {
 
           img {
             margin: 0 auto;
-            display:block;
-          }
+            display:block }
 
           .timestamp {
             position: absolute;
@@ -43,10 +42,11 @@ body.media {
 
           li {
             float: left;
-            margin: 12px 6px;
-            width: 75px;
+            margin:1.05%;
+            width: 9%;
 
-            &:first-child { margin-left:14px } } } } }
+            img {
+              width:100% } } } } }
 
     .metadata {
       margin: 0 auto;

@@ -10,7 +10,7 @@
 
   %ul.rslides_tabs.rslides1_tabs.row-fluid
     - @media.snapshots.each_with_index do |snapshot, i|
-      %li.span1
+      %li
         = link_to '#', class: "rslides1_s#{i + 1}" do
           = image_tag(snapshot.image_url(:tiny))
 

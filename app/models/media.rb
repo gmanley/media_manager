@@ -45,11 +45,11 @@ class Media
   end
 
   def formated_air_date
-    air_date.strftime('%Y.%m.%d') if air_date
+    "[#{air_date.strftime('%Y.%m.%d')}]" if air_date
   end
 
   def display_name
-    "[#{formated_air_date}] #{name}"
+    "#{formated_air_date} #{name}"
   end
 
   def video_resolution
