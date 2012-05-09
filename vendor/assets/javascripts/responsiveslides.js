@@ -51,7 +51,6 @@
         length = $slide.size(),
         fadeTime = parseFloat(settings.speed),
         waitTime = parseFloat(settings.timeout),
-        maxw = parseFloat(settings.maxwidth),
 
         // Namespacing
         namespace = settings.namespace,
@@ -63,25 +62,17 @@
         visibleClass = namespaceIdx + "_on",
         slideClassPrefix = namespaceIdx + "_s",
 
-        // Styles for visible and hidden slides
-        visible = {"float": "left", "position": "relative"},
-        hidden = {"float": "none", "position": "absolute"},
-
         // Fading animation
         slideTo = function (idx) {
           settings.before();
           $slide
             .stop()
             .fadeOut(fadeTime, function () {
-              $(this)
-                .removeClass(visibleClass)
-                .css(hidden);
+              $(this).removeClass(visibleClass)
             })
             .eq(idx)
             .fadeIn(fadeTime, function () {
-              $(this)
-                .addClass(visibleClass)
-                .css(visible);
+              $(this).addClass(visibleClass)
               settings.after();
               index = idx;
             });
@@ -111,16 +102,12 @@
 
       // Add max-width and classes
       $this.addClass(namespace + " " + namespaceIdx);
-      if (options && options.maxwidth) {
-        $this.css("max-width", maxw);
-      }
 
       // Hide all slides, then show first one
       $slide
         .hide()
         .eq(0)
         .addClass(visibleClass)
-        .css(visible)
         .show();
 
       // Only run if there's more than one slide
@@ -130,8 +117,6 @@
         if (waitTime < fadeTime + 100) {
           return;
         }
-
-
 
         // Pager
         if (settings.pager) {
@@ -301,25 +286,7 @@
             });
           }
         }
-
       }
-
-      // Max-width fallback
-      if (typeof document.body.style.maxWidth === "undefined" && options.maxwidth) {
-        var widthSupport = function () {
-          $this.css("width", "100%");
-          if ($this.width() > maxw) {
-            $this.css("width", maxw);
-          }
-        };
-
-        // Init fallback
-        widthSupport();
-        $(window).bind("resize", function () {
-          widthSupport();
-        });
-      }
-
     });
 
   };

@@ -1,19 +1,20 @@
 .page-header
   %h1=@media.name
 
-%ul.snapshots
-  - @media.snapshots.each do |snapshot|
-    %li
-      = image_tag(snapshot.image_url(:thumb))
-      %p.timestamp=snapshot.formated_video_time
+.slider-container.span10
+  %ul.snapshots.row-fluid
+    - @media.snapshots.each do |snapshot|
+      %li.span12
+        = image_tag(snapshot.image_url(:large))
+        %p.timestamp=snapshot.formated_video_time
 
-%ul.rslides_tabs.rslides1_tabs
-  - @media.snapshots.each_with_index do |snapshot, i|
-    %li
-      = link_to '#', class: "rslides1_s#{i + 1}" do
-        = image_tag(snapshot.image_url(:tiny))
+  %ul.rslides_tabs.rslides1_tabs.row-fluid
+    - @media.snapshots.each_with_index do |snapshot, i|
+      %li.span1
+        = link_to '#', class: "rslides1_s#{i + 1}" do
+          = image_tag(snapshot.image_url(:tiny))
 
-%section
+%section.metadata.span10
   %h3 Metadata
   .accordion
     - @media.file_metadata.each do |section_name, section_content|

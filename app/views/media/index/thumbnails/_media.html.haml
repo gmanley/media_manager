@@ -1,4 +1,4 @@
 %li
   = link_to(media, class: 'thumbnail') do
     %h4.thumbnail-title=truncate(media.display_name, length: 80)
-    = image_tag(media.snapshot_index.image_url(:thumb))
+    = image_tag(media.snapshot_index.image_url(:medium))
