@@ -10,4 +10,9 @@ class MediaController < ApplicationController
     @media = Media.find(params[:id])
     respond_with(@media)
   end
+
+  def download
+    @media = Media.find(params[:id])
+    send_file(@media.file_path, filename: @media.filename)
+  end
 end

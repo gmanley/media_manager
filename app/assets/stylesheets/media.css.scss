@@ -2,7 +2,8 @@ body.media {
   &.show {
     .slider-container {
       margin: 0 auto;
-      float:none;
+      float: none;
+      max-width: 800px;
 
       .rslides {
         position: relative;

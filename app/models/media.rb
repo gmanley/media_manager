@@ -48,8 +48,12 @@ class Media
     "[#{air_date.strftime('%Y.%m.%d')}]" if air_date
   end
 
+  def filename
+    display_name << File.extname(file_path)
+  end
+
   def display_name
-    "#{formated_air_date} #{name}"
+    "#{formated_air_date.strip} #{name.strip}"
   end
 
   def video_resolution
@@ -78,7 +82,8 @@ class Media
       self.air_date = Date.strptime(match[:date], '[%m.%d.%y]')
       self.name = match[:title].strip
     end
-    self.name = name.gsub(/\[soshi subs\]/i, '')
+
+    self.name = name.gsub(/\[soshi subs\]/i, '').strip
   end
 
   protected
