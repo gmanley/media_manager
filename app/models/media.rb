@@ -9,25 +9,28 @@ class Media
   embeds_one :snapshot_index
   delegate   :snapshots, to: :snapshot_index
 
-  field :file_metadata, type: Hash, default: {}
+  field :file_metadata, type: Hash,    default: {}
   field :file_path,     type: String
   field :file_hash,     type: String
   field :name,          type: String
   field :air_date,      type: Date
 
   before_create :set_metadata, :find_heuristic_hash, :normalize_name
-  after_create :async_generate_snapshots
+  after_create  :generate_snapshots
 
-  VIDEO_EXTENSIONS = ['.3gp', '.asf', '.asx', '.avi', '.flv', '.iso', '.m2t', '.m2ts', '.m2v', '.m4v',
-                      '.mkv', '.mov', '.mp4', '.mpeg', '.mpg', '.mts', '.ts', '.tp', '.trp', '.vob', '.wmv', '.swf']
+  VIDEO_EXTENSIONS = %w[.3gp .asf .asx .avi .flv .iso .m2t .m2ts .m2v .m4v .mkv .mov .mp4 .mpeg .mpg .mts .ts .tp .trp .vob .wmv .swf]
 
   def self.scan(path, limit = nil)
     files = Find.find(path).find_all {|p| FileTest.file?(p) && VIDEO_EXTENSIONS.include?(File.extname(p).downcase)}
     files = files.sample(limit) if limit
     progress_bar = ProgressBar.new('Media Scanner', files.count)
-    files.each do |file_path|
+    Parallel.each(files, in_threads: 10) do |file_path|
       file_path = file_path.mb_chars.compose.to_s
-      create(file_path: file_path, name: File.basename(file_path, File.extname(file_path)))
+      begin
+        create(file_path: file_path, name: File.basename(file_path, File.extname(file_path)))
+      rescue StandardError => e
+        Rails.logger.warn("Issue adding #{file_path} - Error: #{e}")
+      end
       progress_bar.inc
     end
     progress_bar.finish
@@ -57,11 +60,11 @@ class Media
   end
 
   def video_resolution
-    @video_resolution ||= %w[width height].collect { |k| file_metadata['video'][0][k].gsub(/\D/, '').to_i } if file_metadata
+    @video_resolution ||= [:width, :height].collect { |k| file_metadata.deep_symbolize_keys[:video][0][k].gsub(/\D/, '').to_i } if file_metadata
   end
 
   def duration
-    if file_metadata && match = file_metadata['general'][0]['duration'].match(/((?<h>\d+)h )?((?<m>\d+)mn )?((?<s>\d+)s)?/)
+    if file_metadata && match = file_metadata.deep_symbolize_keys[:general][0][:duration].match(/((?<h>\d+)h )?((?<m>\d+)mn )?((?<s>\d+)s)?/)
       @duration ||= ((match[:h].to_i || 0) * 60 * 60) + ((match[:m].to_i || 0) * 60) + match[:s].to_i
     end
   end
@@ -87,8 +90,9 @@ class Media
   end
 
   protected
-  def async_generate_snapshots
-    SnapshotsWorker.perform_async(id)
+  def generate_snapshots
+    # SnapshotsWorker.perform_async(id)
+    create_snapshot_index # Use this instead of the above when debugging
   end
 
   def set_metadata

@@ -27,6 +27,7 @@ gem 'carrierwave-mongoid', require: 'carrierwave/mongoid'
 gem 'mini_magick', git: 'git://github.com/gmanley/mini_magick.git', branch: 'graphicsmagick-fix'
 gem 'rmagick'
 
+gem 'parallel'
 gem 'progressbar'
 gem 'nokogiri'
 gem 'nori'
