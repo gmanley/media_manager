@@ -14,8 +14,9 @@ class Media
   field :file_hash,     type: String
   field :name,          type: String
   field :air_date,      type: Date
+  field :processed,     type: Boolean, default: false
 
-  before_create :set_metadata, :find_heuristic_hash, :normalize_name
+  before_create :process!
   after_create  :generate_snapshots
 
   VIDEO_EXTENSIONS = %w[.3gp .asf .asx .avi .flv .iso .m2t .m2ts .m2v .m4v .mkv .mov .mp4 .mpeg .mpg .mts .ts .tp .trp .vob .wmv .swf]
@@ -27,7 +28,7 @@ class Media
     Parallel.each(files, in_threads: 10) do |file_path|
       file_path = file_path.mb_chars.compose.to_s
       begin
-        create(file_path: file_path, name: File.basename(file_path, File.extname(file_path)))
+        create(file_path: file_path, name: File.basename(file_path, File.extname(file_path)).strip)
       rescue StandardError => e
         Rails.logger.warn("Issue adding #{file_path} - Error: #{e}")
       end
@@ -43,6 +44,13 @@ class Media
     "%02d:" % hours + "%02d:" % minutes + "%02d" % seconds
   end
 
+  def process!
+    set_metadata
+    find_heuristic_hash
+    normalize_name
+    self.processed = true
+  end
+
   def formated_duration
     self.class.formated_duration_from_seconds(duration) if duration
   end
@@ -56,15 +64,15 @@ class Media
   end
 
   def display_name
-    "#{formated_air_date.strip} #{name.strip}"
+    "#{formated_air_date} #{name}"
   end
 
   def video_resolution
-    @video_resolution ||= [:width, :height].collect { |k| file_metadata.deep_symbolize_keys[:video][0][k].gsub(/\D/, '').to_i } if file_metadata
+    @video_resolution ||= [:width, :height].collect { |k| file_metadata.with_indifferent_access[:video][0][k].gsub(/\D/, '').to_i } if file_metadata
   end
 
   def duration
-    if file_metadata && match = file_metadata.deep_symbolize_keys[:general][0][:duration].match(/((?<h>\d+)h )?((?<m>\d+)mn )?((?<s>\d+)s)?/)
+    if file_metadata && match = file_metadata.with_indifferent_access[:general][0][:duration].match(/((?<h>\d+)h )?((?<m>\d+)mn )?((?<s>\d+)s)?/)
       @duration ||= ((match[:h].to_i || 0) * 60 * 60) + ((match[:m].to_i || 0) * 60) + match[:s].to_i
     end
   end
@@ -96,11 +104,9 @@ class Media
   end
 
   def set_metadata
-    raw_response = %x[mediainfo #{file_path.shellescape} --Output=XML]
+    raw_response = %x[mediainfo #{file_path.shellescape} --output=XML]
     parsed_response = Nori.parse(raw_response)[:mediainfo][:file]
     parsed_response[:track].each {|track| self.file_metadata[track.delete(:type).downcase] ||= [] << track }
-  rescue StandardError => e
-    Rails.logger.warn("Can't parse #{file_path} - Error: #{e}")
   end
 
   # Calculates a hash for the video using a portion of the file,
@@ -111,7 +117,5 @@ class Media
     else
       self.file_hash = Digest::MD5.hexdigest(File.open(file_path, 'rb') { |f| f.seek 5242880; f.read 1048576 })
     end
-  rescue StandardError => e
-    Rails.logger.warn("Can't calculate hash for #{file_path} - Error: #{e}")
   end
 end
