@@ -1,6 +1,7 @@
 require 'shellwords'
 require 'digest/md5'
 require 'find'
+require 'pathname'
 
 class Media
   include Mongoid::Document
@@ -19,21 +20,22 @@ class Media
   before_create :process!
   after_create  :generate_snapshots
 
-  VIDEO_EXTENSIONS = %w[.3gp .asf .asx .avi .flv .iso .m2t .m2ts .m2v .m4v .mkv .mov .mp4 .mpeg .mpg .mts .ts .tp .trp .vob .wmv .swf]
+  VIDEO_EXTENSIONS = %w[.3gp .asf .asx .avi .flv .iso .m2t .m2ts .m2v .m4v .mkv
+                        .mov .mp4 .mpeg .mpg .mts .ts .tp .trp .vob .wmv .swf]
 
   def self.scan(path, limit = nil)
-    files = Find.find(path).find_all {|p| FileTest.file?(p) && VIDEO_EXTENSIONS.include?(File.extname(p).downcase)}
+    path = Pathname(path.mb_chars.compose.to_s)
+    files = path.find.find_all do |sub_path|
+      sub_path.file? && VIDEO_EXTENSIONS.include?(sub_path.extname)
+    end
     files = files.sample(limit) if limit
+
     progress_bar = ProgressBar.new('Media Scanner', files.count)
     Parallel.each(files, in_threads: 10) do |file_path|
-      file_path = file_path.mb_chars.compose.to_s
-      begin
-        create(file_path: file_path, name: File.basename(file_path, File.extname(file_path)).strip)
-      rescue StandardError => e
-        Rails.logger.warn("Issue adding #{file_path} - Error: #{e}")
-      end
+      create(file_path: file_path, name: file_path.basename(file_path.extname))
       progress_bar.inc
     end
+
     progress_bar.finish
   end
 
@@ -49,6 +51,10 @@ class Media
     find_heuristic_hash
     normalize_name
     self.processed = true
+  end
+
+  def file_metadata
+    read_attribute(:file_metadata).with_indifferent_access
   end
 
   def formated_duration
@@ -68,12 +74,18 @@ class Media
   end
 
   def video_resolution
-    @video_resolution ||= [:width, :height].collect { |k| file_metadata.with_indifferent_access[:video][0][k].gsub(/\D/, '').to_i } if file_metadata
+    if file_metadata.present?
+      @video_resolution ||= [:width, :height].collect do |key|
+        file_metadata[:video][0][key].gsub(/\D/, '').to_i
+      end
+    end
   end
 
   def duration
-    if file_metadata && match = file_metadata.with_indifferent_access[:general][0][:duration].match(/((?<h>\d+)h )?((?<m>\d+)mn )?((?<s>\d+)s)?/)
-      @duration ||= ((match[:h].to_i || 0) * 60 * 60) + ((match[:m].to_i || 0) * 60) + match[:s].to_i
+    if file_metadata.present? && duration = file_metadata[:general][0][:duration]
+      duration.match(/((?<h>\d+)h )?((?<m>\d+)mn )?((?<s>\d+)s)?/) do |match|
+        @duration ||= ((match[:h].to_i || 0) * 60 * 60) + ((match[:m].to_i || 0) * 60) + match[:s].to_i
+      end
     end
   end
 
