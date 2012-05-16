@@ -15,7 +15,17 @@ class Media
   field :file_hash,     type: String
   field :name,          type: String
   field :air_date,      type: Date
+  field :duration,      type: Float
   field :processed,     type: Boolean, default: false
+
+  include Tire::Model::Search
+  include Tire::Model::Callbacks
+
+  mapping do
+    indexes :_id,      index:    :not_analyzed
+    indexes :name,     analyzer: 'snowball', boost: 100
+    indexes :air_date, type:     'date'
+  end
 
   before_create :process!
   after_create  :generate_snapshots
@@ -46,10 +56,15 @@ class Media
     "%02d:" % hours + "%02d:" % minutes + "%02d" % seconds
   end
 
+  def self.paginate(options = {})
+    page(options[:page]).per(options[:per_page])
+  end
+
   def process!
     set_metadata
     find_heuristic_hash
     normalize_name
+    set_duration
     self.processed = true
   end
 
@@ -81,10 +96,10 @@ class Media
     end
   end
 
-  def duration
+  def set_duration
     if file_metadata.present? && duration = file_metadata[:general][0][:duration]
       duration.match(/((?<h>\d+)h )?((?<m>\d+)mn )?((?<s>\d+)s)?/) do |match|
-        @duration ||= ((match[:h].to_i || 0) * 60 * 60) + ((match[:m].to_i || 0) * 60) + match[:s].to_i
+        self.duration = ((match[:h].to_i || 0) * 60 * 60) + ((match[:m].to_i || 0) * 60) + match[:s].to_i
       end
     end
   end
@@ -107,6 +122,15 @@ class Media
     end
 
     self.name = name.gsub(/\[soshi subs\]/i, '').strip
+  end
+
+  def to_indexed_json
+    {
+      _id:       _id,
+      air_date:  air_date,
+      file_hash: file_hash,
+      name:      name
+    }.to_json
   end
 
   protected

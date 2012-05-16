@@ -2,4 +2,5 @@
 //= require jquery_ujs
 //= require bootstrap
 //= require responsiveslides
-//= require jquery.tablesorter
+//= require dataTables/jquery.dataTables
+//= require dataTables/jquery.dataTables.bootstrap

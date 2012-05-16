@@ -19,7 +19,12 @@ gem 'mongoid', '~> 2.4'
 gem 'bson_ext'
 gem 'mongoid_slug'
 gem 'kaminari'
+gem 'tire'
+gem 'tire-contrib', require: 'tire/rails/logger'
 
+gem 'jquery-datatables-rails', git: 'git://github.com/rweng/jquery-datatables-rails.git'
+gem 'rabl'
+gem 'yajl-ruby'
 gem 'responders'
 
 gem 'carrierwave'
