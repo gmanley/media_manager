@@ -6,6 +6,7 @@ require 'pathname'
 class Media
   include Mongoid::Document
   include Mongoid::Timestamps
+  include Mongoid::Extensions::Hash::IndifferentAccess
 
   embeds_one :snapshot_index
   delegate   :snapshots, to: :snapshot_index
@@ -18,24 +19,23 @@ class Media
   field :processed,     type: Boolean, default: false
 
   before_create :process!
-  after_create  :generate_snapshots
+  after_create  :create_snapshot_index
 
   VIDEO_EXTENSIONS = %w[.3gp .asf .asx .avi .flv .iso .m2t .m2ts .m2v .m4v .mkv
                         .mov .mp4 .mpeg .mpg .mts .ts .tp .trp .vob .wmv .swf]
 
   def self.scan(path, limit = nil)
-    path = Pathname(path.mb_chars.compose.to_s)
-    files = path.find.find_all do |sub_path|
-      sub_path.file? && VIDEO_EXTENSIONS.include?(sub_path.extname)
+    files = Find.find(path).find_all do |sub_path|
+      VIDEO_EXTENSIONS.include?(File.extname(sub_path))
     end
     files = files.sample(limit) if limit
 
     progress_bar = ProgressBar.new('Media Scanner', files.count)
     Parallel.each(files, in_threads: 10) do |file_path|
-      create(file_path: file_path, name: file_path.basename(file_path.extname))
+      file_path = file_path.mb_chars.compose.to_s
+      create(file_path: file_path, name: File.basename(file_path, File.extname(file_path)))
       progress_bar.inc
     end
-
     progress_bar.finish
   end
 
@@ -51,10 +51,6 @@ class Media
     find_heuristic_hash
     normalize_name
     self.processed = true
-  end
-
-  def file_metadata
-    read_attribute(:file_metadata).with_indifferent_access
   end
 
   def formated_duration
@@ -110,15 +106,12 @@ class Media
   end
 
   protected
-  def generate_snapshots
-    # SnapshotsWorker.perform_async(id)
-    create_snapshot_index # Use this instead of the above when debugging
-  end
-
   def set_metadata
     raw_response = %x[mediainfo #{file_path.shellescape} --output=XML]
     parsed_response = Nori.parse(raw_response)[:mediainfo][:file]
-    parsed_response[:track].each {|track| self.file_metadata[track.delete(:type).downcase] ||= [] << track }
+    parsed_response[:track].each do |track|
+      self.file_metadata[track.delete(:type).downcase] ||= [] << track
+    end
   end
 
   # Calculates a hash for the video using a portion of the file,
