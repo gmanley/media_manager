@@ -4,7 +4,7 @@ shared: &shared_settings
 development:
   <<: *shared_settings
   host: localhost
-  database: media_manager_development
+  database: media_manager_personal_development
 
 test:
   <<: *shared_settings
