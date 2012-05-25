@@ -1,0 +1,11 @@
+%section.row-fluid
+  %table.table.table-striped.table-bordered.sortable
+    %thead
+      %tr
+        %th Name
+        %th Possible Names
+    %tbody
+      = render @events
+  = paginate @events
+
+= link_to('New Event', new_event_path, class: 'btn btn-primary')

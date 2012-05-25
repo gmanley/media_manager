@@ -49,7 +49,6 @@ class Media
   def process!
     set_metadata
     find_heuristic_hash
-    normalize_name
     self.processed = true
   end
 
@@ -83,26 +82,6 @@ class Media
         @duration ||= ((match[:h].to_i || 0) * 60 * 60) + ((match[:m].to_i || 0) * 60) + match[:s].to_i
       end
     end
-  end
-
-  def normalize_name
-    # TODO: Refactor as this contains logic specific to my use case!
-    old_year = /(?<year>(07|08|09|10|11|12))/
-    new_year = /(?<year>(20)(07|08|09|10|11|12))/
-    month = /(?<month>0[1-9]|1[012])/
-    day = /(?<day>0[1-9]|[12][0-9]|3[01])/
-    new_name_format = /(?<date>\[#{new_year}\.#{month}\.#{day}\])(?<title>.+)/
-    old_name_format = /(?<title>.+)(?<date>\[#{month}\.#{day}\.#{old_year}\])/
-
-    if match = name.match(new_name_format)
-      self.air_date = Date.strptime(match[:date], '[%Y.%m.%d]')
-      self.name = match[:title].strip
-    elsif match = name.match(old_name_format)
-      self.air_date = Date.strptime(match[:date], '[%m.%d.%y]')
-      self.name = match[:title].strip
-    end
-
-    self.name = name.gsub(/\[soshi subs\]/i, '').strip
   end
 
   protected

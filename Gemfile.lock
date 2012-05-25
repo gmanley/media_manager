@@ -163,6 +163,9 @@ GEM
       multi_json (~> 1.0)
       redis
       redis-namespace
+    simple_form (2.0.2)
+      actionpack (~> 3.0)
+      activemodel (~> 3.0)
     slop (2.4.4)
     sprockets (2.1.2)
       hike (~> 1.2)
@@ -212,5 +215,6 @@ DEPENDENCIES
   rmagick
   sass-rails (~> 3.2)
   sidekiq
+  simple_form
   thin
   uglifier

@@ -22,6 +22,7 @@ gem 'mongoid-indifferent-access', require: 'mongoid_indifferent_access'
 gem 'kaminari'
 
 gem 'responders'
+gem 'simple_form'
 
 gem 'carrierwave'
 gem 'carrierwave-mongoid', require: 'carrierwave/mongoid'
