@@ -2,8 +2,15 @@ class MediaController < ApplicationController
   respond_to :html, :json
 
   def index
-    @media = Media.order_by([[sort_column, sort_direction]])
-                  .page(params[:page]).per(25)
+    if query.present?
+      @media = Media.tire.search(query,
+                 page: page, per_page: per_page,
+                 sort: [sort_column, sort_direction].join(' ')
+               )
+    else
+      @media = Media.order_by([[sort_column, sort_direction]])
+                    .page(page).per(per_page)
+    end
 
     respond_with(@media)
   end
@@ -19,13 +26,22 @@ class MediaController < ApplicationController
   end
 
   private
+  def query
+    params[:sSearch]
+  end
+
   def sort_direction
     params[:sSortDir_0] || :asc
   end
 
   def sort_column
     columns = %w[name air_date duration]
-    columns[params[:iSortCol_0].to_i]
+    column = columns[params[:iSortCol_0].to_i]
+    if column == 'name' && query.present?
+      column << '_sortable'
+    else
+      column
+    end
   end
 
   def page

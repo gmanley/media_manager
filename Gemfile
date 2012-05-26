@@ -20,7 +20,7 @@ gem 'bson_ext'
 gem 'mongoid_slug'
 gem 'mongoid-indifferent-access', require: 'mongoid_indifferent_access'
 gem 'kaminari'
-gem 'tire'
+gem 'tire', git: 'git://github.com/gmanley/tire.git'
 gem 'tire-contrib', require: 'tire/rails/logger'
 
 gem 'jquery-datatables-rails', git: 'git://github.com/rweng/jquery-datatables-rails.git'

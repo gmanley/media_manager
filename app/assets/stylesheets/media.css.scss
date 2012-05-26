@@ -57,6 +57,11 @@ body.media {
     th.tablesorter-header:hover {
       cursor: pointer;
       background-color: #DBDBDB }
+    .dataTables_info {
+      margin:5px }
+
+    .dataTables_paginate {
+      float: left }
 
     .thumbnails li {
       margin: 0 0 18px 20px;

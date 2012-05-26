@@ -8,7 +8,7 @@ $ ->
   )
 
   $('#media_table').dataTable(
-    sPaginationType: 'full_numbers'
+    sPaginationType: 'bootstrap'
     bProcessing: true
     bServerSide: true
     sAjaxSource: $('#media_table').data('source')

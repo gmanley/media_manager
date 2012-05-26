@@ -11,7 +11,7 @@ class Media
   embeds_one :snapshot_index
   delegate   :snapshots, to: :snapshot_index
 
-  field :file_metadata, type: Hash,    default: {}
+  field :file_metadata, type: Hash,   default: {}
   field :file_path,     type: String
   field :file_hash,     type: String
   field :name,          type: String
@@ -23,9 +23,12 @@ class Media
   include Tire::Model::Callbacks
 
   mapping do
-    indexes :_id,      index:    :not_analyzed
-    indexes :name,     analyzer: 'snowball', boost: 100
-    indexes :air_date, type:     'date'
+    indexes :_id,      index: :not_analyzed
+    indexes :name,     type: 'multi_field', fields: {
+      name:          { type: 'string', analyzer: 'snowball' },
+      name_sortable: { type: 'string', index: :not_analyzed }
+    }
+    indexes :air_date, type: 'date'
   end
 
   before_create :process!
@@ -124,8 +127,9 @@ class Media
     {
       _id:       _id,
       air_date:  air_date,
-      file_hash: file_hash,
-      name:      name
+      name:      name,
+      formated_duration:  formated_duration,
+      formated_air_date: formated_air_date
     }.to_json
   end
 
