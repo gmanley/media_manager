@@ -7,6 +7,24 @@ GIT
       subexec (~> 0.2.1)
 
 GIT
+  remote: git://github.com/gmanley/tire.git
+  revision: 84a395024d2bd323db3f25b23f77d5e021d8e5eb
+  specs:
+    tire (0.4.2)
+      activemodel (>= 3.0)
+      hashr (~> 0.0.19)
+      multi_json (~> 1.0)
+      rake
+      rest-client (~> 1.6)
+
+GIT
+  remote: git://github.com/rweng/jquery-datatables-rails.git
+  revision: 9e88f3c3a858a29492adb710e4801b8f19205ead
+  specs:
+    jquery-datatables-rails (1.9.1.3)
+      jquery-rails
+
+GIT
   remote: git://github.com/thoughtbot/bourbon.git
   revision: 0ec0115c0e58fadb73f37067ced6d8d8ce26a371
   specs:
@@ -81,6 +99,7 @@ GEM
       activesupport (~> 3.0)
       haml (~> 3.0)
       railties (~> 3.0)
+    hashr (0.0.21)
     hike (1.2.1)
     i18n (0.6.0)
     journey (1.0.3)
@@ -121,6 +140,9 @@ GEM
       slop (>= 2.4.4, < 3)
     pry-rails (0.1.6)
       pry
+    rabl (0.6.11)
+      activesupport (>= 2.3.14)
+      multi_json (~> 1.0)
     rack (1.4.1)
     rack-cache (1.2)
       rack (>= 0.4)
@@ -151,6 +173,8 @@ GEM
       redis (< 3.0.0)
     responders (0.9.1)
       railties (~> 3.1)
+    rest-client (1.6.7)
+      mime-types (>= 1.16)
     rmagick (2.13.1)
     sass (3.1.15)
     sass-rails (3.2.5)
@@ -179,6 +203,8 @@ GEM
       rack (>= 1.0.0)
     thor (0.14.6)
     tilt (1.3.3)
+    tire-contrib (0.1.1)
+      tire
     treetop (1.4.10)
       polyglot
       polyglot (>= 0.3.1)
@@ -186,6 +212,7 @@ GEM
     uglifier (1.2.4)
       execjs (>= 0.3.0)
       multi_json (>= 1.0.2)
+    yajl-ruby (1.1.0)
 
 PLATFORMS
   ruby
@@ -199,6 +226,7 @@ DEPENDENCIES
   coffee-rails (~> 3.2)
   coffeebeans
   haml-rails
+  jquery-datatables-rails!
   jquery-rails
   kaminari
   mini_magick!
@@ -210,6 +238,7 @@ DEPENDENCIES
   parallel
   progressbar
   pry-rails
+  rabl
   rails (~> 3.2)
   responders
   rmagick
@@ -217,4 +246,7 @@ DEPENDENCIES
   sidekiq
   simple_form
   thin
+  tire!
+  tire-contrib
   uglifier
+  yajl-ruby

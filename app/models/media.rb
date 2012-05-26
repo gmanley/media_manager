@@ -11,12 +11,25 @@ class Media
   embeds_one :snapshot_index
   delegate   :snapshots, to: :snapshot_index
 
-  field :file_metadata, type: Hash,    default: {}
+  field :file_metadata, type: Hash,   default: {}
   field :file_path,     type: String
   field :file_hash,     type: String
   field :name,          type: String
   field :air_date,      type: Date
+  field :duration,      type: Float
   field :processed,     type: Boolean, default: false
+
+  include Tire::Model::Search
+  include Tire::Model::Callbacks
+
+  mapping do
+    indexes :_id,      index: :not_analyzed
+    indexes :name,     type: 'multi_field', fields: {
+      name:          { type: 'string', analyzer: 'snowball' },
+      name_sortable: { type: 'string', index: :not_analyzed }
+    }
+    indexes :air_date, type: 'date'
+  end
 
   before_create :process!
   after_create  :create_snapshot_index
@@ -46,9 +59,14 @@ class Media
     "%02d:" % hours + "%02d:" % minutes + "%02d" % seconds
   end
 
+  def self.paginate(options = {})
+    page(options[:page]).per(options[:per_page])
+  end
+
   def process!
     set_metadata
     find_heuristic_hash
+    set_duration
     self.processed = true
   end
 
@@ -76,10 +94,10 @@ class Media
     end
   end
 
-  def duration
+  def set_duration
     if file_metadata.present? && duration = file_metadata[:general][0][:duration]
       duration.match(/((?<h>\d+)h )?((?<m>\d+)mn )?((?<s>\d+)s)?/) do |match|
-        @duration ||= ((match[:h].to_i || 0) * 60 * 60) + ((match[:m].to_i || 0) * 60) + match[:s].to_i
+        self.duration = ((match[:h].to_i || 0) * 60 * 60) + ((match[:m].to_i || 0) * 60) + match[:s].to_i
       end
     end
   end
