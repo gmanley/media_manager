@@ -45,7 +45,11 @@ class MediaController < ApplicationController
   end
 
   def page
-    params[:iDisplayStart].to_i / per_page + 1
+    if params[:page]
+      params[:page]
+    else
+      params[:iDisplayStart].to_i / per_page + 1
+    end
   end
 
   def per_page
