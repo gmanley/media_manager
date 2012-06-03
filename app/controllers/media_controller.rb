@@ -5,8 +5,7 @@ class MediaController < ApplicationController
     if query.present?
       @media = Media.tire.search(query,
                  page: page, per_page: per_page,
-                 sort: [sort_column, sort_direction].join(' ')
-               )
+                 sort: "#{sort_column} #{sort_direction}")
     else
       @media = Media.order_by([[sort_column, sort_direction]])
                     .page(page).per(per_page)
@@ -22,7 +21,11 @@ class MediaController < ApplicationController
 
   def download
     @media = Media.find(params[:id])
-    send_file(@media.file_path, filename: @media.filename)
+    if download_url = @media.download_url
+      redirect_to(download_url)
+    else
+      send_file(@media.file_path, filename: @media.filename)
+    end
   end
 
   private

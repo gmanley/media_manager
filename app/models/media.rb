@@ -18,6 +18,7 @@ class Media
   field :air_date,      type: Date
   field :duration,      type: Float
   field :processed,     type: Boolean, default: false
+  field :download_url,  type: String
 
   include Tire::Model::Search
   include Tire::Model::Callbacks
