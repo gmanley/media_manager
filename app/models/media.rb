@@ -30,6 +30,7 @@ class Media
       name_sortable: { type: 'string', index: :not_analyzed }
     }
     indexes :air_date, type: 'date'
+    indexes :formated_air_date, type: 'string'
   end
 
   before_create :process!
@@ -76,7 +77,7 @@ class Media
   end
 
   def formated_air_date
-    "[#{air_date.strftime('%Y.%m.%d')}]" if air_date
+    "#{air_date.strftime('%Y.%m.%d')}" if air_date
   end
 
   def filename
