@@ -2,7 +2,7 @@ class SnapshotIndex
   include Mongoid::Document
   include Mongoid::Timestamps
 
-  embedded_in :media, class_name: 'Media'
+  embedded_in :video
   embeds_many :snapshots, cascade_callbacks: true
 
   mount_uploader :image, ImageUploader
@@ -16,7 +16,7 @@ class SnapshotIndex
   end
 
   def create_snapshots
-    increment = media.duration / total_snapshots
+    increment = video.duration / total_snapshots
 
     snapshot_count, video_time = 0, 0
 
@@ -34,7 +34,7 @@ class SnapshotIndex
 
   def create_index_image
     a = Magick::ImageList.new
-    resolution = media.video_resolution # for w/e reason this is needed for video_size to be defined
+    resolution = video.video_resolution # for w/e reason this is needed for video_size to be defined
 
     snapshots.each do |snapshot|
       image = Magick::Image.from_blob(snapshot.image.read).first

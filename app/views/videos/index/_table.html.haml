@@ -1,0 +1,14 @@
+%table#videos_table.table.table-striped.table-bordered{data: {source: videos_url(format: 'json')}}
+  %thead
+    %tr
+      %th
+        %i.icon-arrow-down
+        Name
+      %th
+        %i
+        Original Air Date
+      %th
+        %i
+        Duration
+  %tbody
+    = render partial: 'videos/index/table/video', collection: @videos

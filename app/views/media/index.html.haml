@@ -1,6 +1,0 @@
-.view_links
-  = link_to('Thumbnail View', media_path(view_type: 'thumbnails'), class: 'btn')
-  = link_to('Table View', media_path(view_type: 'table'), class: 'btn')
-
-%section.row-fluid
-  = render "media/index/#{view_type}"
