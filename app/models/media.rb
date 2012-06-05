@@ -18,6 +18,7 @@ class Media
   field :air_date,      type: Date
   field :duration,      type: Float
   field :processed,     type: Boolean, default: false
+  field :download_url,  type: String
 
   include Tire::Model::Search
   include Tire::Model::Callbacks
@@ -29,6 +30,7 @@ class Media
       name_sortable: { type: 'string', index: :not_analyzed }
     }
     indexes :air_date, type: 'date'
+    indexes :formated_air_date, type: 'string'
   end
 
   before_create :process!
@@ -75,7 +77,7 @@ class Media
   end
 
   def formated_air_date
-    "[#{air_date.strftime('%Y.%m.%d')}]" if air_date
+    "#{air_date.strftime('%Y.%m.%d')}" if air_date
   end
 
   def filename
@@ -100,6 +102,16 @@ class Media
         self.duration = ((match[:h].to_i || 0) * 60 * 60) + ((match[:m].to_i || 0) * 60) + match[:s].to_i
       end
     end
+  end
+
+  def to_indexed_json
+    {
+      _id:       _id,
+      air_date:  air_date,
+      name:      name,
+      formated_duration:  formated_duration,
+      formated_air_date: formated_air_date
+    }.to_json
   end
 
   protected
