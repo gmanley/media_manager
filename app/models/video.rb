@@ -3,7 +3,7 @@ require 'digest/md5'
 require 'find'
 require 'pathname'
 
-class Media
+class Video
   include Mongoid::Document
   include Mongoid::Timestamps
   include Mongoid::Extensions::Hash::IndifferentAccess
@@ -45,7 +45,7 @@ class Media
     end
     files = files.sample(limit) if limit
 
-    progress_bar = ProgressBar.new('Media Scanner', files.count)
+    progress_bar = ProgressBar.new('Video Scanner', files.count)
     Parallel.each(files, in_threads: 10) do |file_path|
       file_path = file_path.mb_chars.compose.to_s
       create(file_path: file_path, name: File.basename(file_path, File.extname(file_path)))

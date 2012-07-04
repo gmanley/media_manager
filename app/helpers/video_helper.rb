@@ -1,4 +1,4 @@
-module MediaHelper
+module VideoHelper
 
   def escape_snapshot_url(url)
     url_array = File.split(url)

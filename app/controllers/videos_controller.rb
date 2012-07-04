@@ -1,30 +1,30 @@
-class MediaController < ApplicationController
+class VideosController < ApplicationController
   respond_to :html, :json
 
   def index
     if query.present?
-      @media = Media.tire.search(query,
+      @videos = Video.tire.search(query,
                  page: page, per_page: per_page,
                  sort: "#{sort_column} #{sort_direction}")
     else
-      @media = Media.order_by([[sort_column, sort_direction]])
+      @videos = Video.order_by([[sort_column, sort_direction]])
                     .page(page).per(per_page)
     end
 
-    respond_with(@media)
+    respond_with(@videos)
   end
 
   def show
-    @media = Media.find(params[:id])
-    respond_with(@media)
+    @video = Video.find(params[:id])
+    respond_with(@video)
   end
 
   def download
-    @media = Media.find(params[:id])
-    if download_url = @media.download_url
+    video = Video.find(params[:id])
+    if download_url = video.download_url
       redirect_to(download_url)
     else
-      send_file(@media.file_path, filename: @media.filename)
+      send_file(video.file_path, filename: video.filename)
     end
   end
 

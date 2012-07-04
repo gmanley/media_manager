@@ -1,9 +1,9 @@
 MediaManager::Application.routes.draw do
 
-  root to: 'media#index'
+  root to: 'videos#index'
 
   resources :events
-  resources :media, only: [:index, :show] do
+  resources :videos, only: [:index, :show] do
     get :download, on: :member
     get 'page/:page', action: :index, on: :collection
   end
