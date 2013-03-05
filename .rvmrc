@@ -1,1 +1,1 @@
-rvm use 1.9.3@media_manager --create
+rvm 2.0.0@media_manager --create
