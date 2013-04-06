@@ -3,8 +3,6 @@ source 'https://rubygems.org'
 gem 'rails', '~> 3.2'
 
 gem 'haml-rails'
-gem 'coffee-filter'
-gem 'coffeebeans'
 gem 'bourbon', git: 'git://github.com/thoughtbot/bourbon.git'
 
 group :assets do
@@ -15,7 +13,7 @@ end
 
 gem 'jquery-rails'
 
-gem 'mongoid', '~> 2.4'
+gem 'mongoid'
 gem 'bson_ext'
 gem 'mongoid_slug'
 gem 'mongoid-indifferent-access', require: 'mongoid_indifferent_access'
@@ -37,7 +35,7 @@ gem 'rmagick'
 gem 'parallel'
 gem 'progressbar'
 gem 'nokogiri'
-gem 'nori'
+gem 'nori', '~> 1.1.0'
 
 gem 'sidekiq'
 
