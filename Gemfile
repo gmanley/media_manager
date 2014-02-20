@@ -1,38 +1,34 @@
 source 'https://rubygems.org'
 
-gem 'rails', '~> 3.2'
+gem 'rails', '4.0.2'
 
-gem 'haml-rails'
-gem 'bourbon', git: 'git://github.com/thoughtbot/bourbon.git'
+gem 'sass-rails', '~> 4.0.0'
+gem 'bourbon', github: 'thoughtbot/bourbon'
 
-group :assets do
-  gem 'sass-rails',   '~> 3.2'
-  gem 'coffee-rails', '~> 3.2'
-  gem 'uglifier'
-end
-
+gem 'coffee-rails', '~> 4.0.0'
 gem 'jquery-rails'
+gem 'turbolinks'
+gem 'jquery-turbolinks'
+gem 'haml-rails'
+gem 'uglifier', '>= 1.3.0'
 
-gem 'mongoid'
+gem 'mongoid', github: 'mongoid/mongoid'
 gem 'bson_ext'
-gem 'mongoid_slug'
 gem 'mongoid-indifferent-access', require: 'mongoid_indifferent_access'
 gem 'kaminari'
-gem 'tire', git: 'git://github.com/gmanley/tire.git'
+gem 'tire'
 gem 'tire-contrib', require: 'tire/rails/logger'
-
-gem 'jquery-datatables-rails', git: 'git://github.com/rweng/jquery-datatables-rails.git'
+gem 'streamio-ffmpeg', github: 'streamio/streamio-ffmpeg'
+gem 'jquery-datatables-rails'
 gem 'rabl'
 gem 'yajl-ruby'
 gem 'responders'
 
 gem 'carrierwave'
 gem 'carrierwave-mongoid', require: 'carrierwave/mongoid'
-gem 'mini_magick', git: 'git://github.com/gmanley/mini_magick.git', branch: 'graphicsmagick-fix'
-gem 'rmagick'
+gem 'mini_magick', github: 'gmanley/mini_magick', branch: 'graphicsmagick-fix'
+gem 'rmagick', github: 'rmagick/rmagick'
 
-gem 'parallel'
-gem 'progressbar'
 gem 'nokogiri'
 gem 'nori', '~> 1.1.0'
 
