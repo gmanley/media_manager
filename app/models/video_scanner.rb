@@ -1,4 +1,8 @@
 class VideoScanner
+  VIDEO_EXTENSIONS = %w[
+    3gp asf asx avi flv iso m2t m2ts m2v m4v mkv
+    mov mp4 mpeg mpg mts ts tp trp vob wmv swf
+  ]
 
   def initialize(path, options = {})
     @path = path
@@ -6,13 +10,31 @@ class VideoScanner
   end
 
   def perform
-    files = Find.find(path).find_all do |sub_path|
-      VIDEO_EXTENSIONS.include?(File.extname(sub_path))
-    end
-    files = files.sample(@options[:limit]) if @options[:limit]
+    count = 0
 
-    files.each do |file_path|
-      VideoProcessor.perform_async(file_path.mb_chars.compose.to_s)
+    files.each do |path|
+      break if count == @options[:limit]
+
+      path = path.mb_chars.compose.to_s
+
+      if video_file?(path)
+        VideoProcessor.perform_async(path)
+        count += 1
+      end
     end
+  end
+
+  private
+
+  def files
+    if @options[:recursive]
+      Find.find(path)
+    else
+      Dir.entries(path)
+    end
+  end
+
+  def video_file?(path)
+    VIDEO_EXTENSIONS.include?(File.extname(path.delete('.')))
   end
 end

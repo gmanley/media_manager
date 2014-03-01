@@ -33,9 +33,6 @@ class Video
     indexes :formated_air_date, type: 'string'
   end
 
-  VIDEO_EXTENSIONS = %w[.3gp .asf .asx .avi .flv .iso .m2t .m2ts .m2v .m4v .mkv
-                        .mov .mp4 .mpeg .mpg .mts .ts .tp .trp .vob .wmv .swf]
-
   def self.scan(path, options = {})
     VideoScanner.new(path, options).perform
   end
@@ -52,9 +49,14 @@ class Video
   end
 
   def default_name
-    if file_path
-      File.basename(file_path, File.extname(file_path))
-    end
+    [
+      formated_air_date,
+      File.basename(file_path, file_ext)
+    ].join(' ')
+  end
+
+  def file_ext
+    File.extname(file_path)
   end
 
   def formated_duration
@@ -63,14 +65,6 @@ class Video
 
   def formated_air_date
     "#{air_date.strftime('%Y.%m.%d')}" if air_date
-  end
-
-  def filename
-    display_name + File.extname(file_path)
-  end
-
-  def display_name
-    "#{formated_air_date} #{name}"
   end
 
   def video_resolution
@@ -106,8 +100,8 @@ class Video
   def set_metadata
     raw_response = %x[mediainfo #{file_path.shellescape} --output=XML]
     parsed_response = Nori.parse(raw_response)[:mediainfo][:file]
-    parsed_response[:track].each do |track|
-      self.file_metadata[track.delete(:type).downcase] ||= [] << track
+    self.file_metadata = parsed_response[:track].group_by do |track|
+      track.delete(:type).downcase
     end
   end
 
