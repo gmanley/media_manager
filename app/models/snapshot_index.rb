@@ -9,30 +9,24 @@ class SnapshotIndex
 
   field :grid_size, type: Array, default: [3, 3]
 
-  after_create :create_snapshots, :create_index_image
-
   def total_snapshots
     grid_size.reduce(1, :*)
   end
 
-  def create_snapshots
+  def snapshot_times
     increment = video.duration / total_snapshots
-
-    snapshot_count, video_time = 0, 0
-
-    until snapshot_count == total_snapshots
-      snapshot_count += 1
-
-      video_time += increment
-      video_time = (video_time - increment / total_snapshots).floor
-
-      snapshot = self.snapshots.new(video_time: video_time)
-      snapshot.generate_image
-      snapshot.save
+    (increment..video.duration).step(increment).map do |i|
+      (i - increment / total_snapshots).floor
     end
   end
 
+  def can_create_index?
+    snapshots.processed.count == total_snapshots
+  end
+
   def create_index_image
+    return false unless can_create_index?
+
     a = Magick::ImageList.new
     resolution = video.video_resolution # for w/e reason this is needed for video_size to be defined
 
