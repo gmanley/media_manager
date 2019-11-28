@@ -1,0 +1,6 @@
+= simple_form_for(@event) do |f|
+  %fieldset
+    %legend New event
+    = render partial: 'form', locals: {f: f}
+    .form-actions
+      = f.button :submit, 'Create', class: 'btn-primary'
