@@ -26,8 +26,9 @@ gem 'jquery-datatables-rails'
 gem 'rabl'
 gem 'yajl-ruby'
 
-gem 'responders', github: 'plataformatec/responders' # Customize respond_with behavior
-gem 'simple_form', github: 'plataformatec/simple_form' # Better rails form helpers
+
+gem 'responders' # Customize respond_with behavior
+gem 'simple_form' # Better rails form helpers
 gem 'multi_fetch_fragments' # Speeds up collection partial rendering
 
 gem 'carrierwave' # File uploading
@@ -61,7 +62,6 @@ group :test do
   gem 'database_cleaner', github: 'bmabey/database_cleaner' # Database cleaning for better test isolation
   gem 'shoulda-matchers', github: 'thoughtbot/shoulda-matchers' # Collection of helpful rspec macros
   gem 'simplecov', require: false # Code coverage tool
-  gem 'poltergeist' # Headless browser for capybara (uses PhantomJS)
   gem 'fakefs', require: 'fakefs/safe'
 end
 
