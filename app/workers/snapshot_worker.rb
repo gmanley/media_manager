@@ -9,4 +9,8 @@ class SnapshotWorker
       snapshot.update_attributes(processed: true)
     end
   end
+
+  def on_success(status, options)
+    SnapshotIndexWorker.perform_async(options['video_id'])
+  end
 end

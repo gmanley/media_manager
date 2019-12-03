@@ -6,7 +6,6 @@ require 'pathname'
 class Video
   include Mongoid::Document
   include Mongoid::Timestamps
-  include Mongoid::Extensions::Hash::IndifferentAccess
 
   embeds_one :snapshot_index
   delegate   :snapshots, to: :snapshot_index
@@ -48,6 +47,10 @@ class Video
     page(options[:page]).per(options[:per_page])
   end
 
+  def file_metadata
+    super.with_indifferent_access
+  end
+
   def default_name
     [
       formated_air_date,
@@ -76,10 +79,8 @@ class Video
   end
 
   def set_duration
-    if file_metadata.present? && duration = file_metadata[:general][0][:duration]
-      duration.match(/((?<h>\d+)h )?((?<m>\d+)mn )?((?<s>\d+)s)?/) do |match|
-        self.duration = ((match[:h].to_i || 0) * 60 * 60) + ((match[:m].to_i || 0) * 60) + match[:s].to_i
-      end
+    if file_metadata.present?
+      self.duration = file_metadata[:general][0][:duration].to_f
     end
   end
 
@@ -99,7 +100,8 @@ class Video
 
   def set_metadata
     raw_response = %x[mediainfo #{file_path.shellescape} --output=XML]
-    parsed_response = Nori.parse(raw_response)[:mediainfo][:file]
+    parsed_response = Nori.parse(raw_response)[:media_info][:media]
+
     self.file_metadata = parsed_response[:track].group_by do |track|
       track.delete(:type).downcase
     end
