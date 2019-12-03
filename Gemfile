@@ -31,7 +31,7 @@ gem 'jquery-datatables'
 gem 'rabl'
 gem 'yajl-ruby'
 
-# gem 'responders' # Customize respond_with behavior
+gem 'responders' # Customize respond_with behavior
 gem 'simple_form' # Better rails form helpers
 # gem 'multi_fetch_fragments' # Speeds up collection partial rendering
 
