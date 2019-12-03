@@ -1,18 +1,21 @@
-//= require libraries
+//= require rails-ujs
+//= require jquery
+//= require turbolinks
+//= require bootstrap-alert
+//= require bootstrap-dropdown
+//= require bootstrap-transition
+//= require bootstrap-button
+//= require bootstrap-collapse
+//= require chosen.jquery
+//= require responsiveslides
 //= require utils
-//= require_self
 //= require datatables
-//= require loading-indicator
+//= require_self
 //= require videos
 
 window.App = {};
 
-$(function() {
+$(document).on('ready turbolinks:load', function() {
   $('.alert').delay(4000).fadeOut('slow');
   $('.chosen').chosen();
 });
-
-// # Have a loading screen when turbolinks is working it's magic
-// document.addEventListener('page:fetch', () => App.LoadingIndicator.show());
-
-// document.addEventListener('page:receive', () => App.LoadingIndicator.hide());

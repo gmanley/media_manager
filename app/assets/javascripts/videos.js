@@ -1,4 +1,4 @@
-$(document).on('ready page:load', function() {
+$(document).on('ready turbolinks:load', function() {
   $('.snapshots').responsiveSlides({
     maxwidth: 800,
     auto: false,
