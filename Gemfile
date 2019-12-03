@@ -10,18 +10,17 @@ gem 'sass-rails', '~> 5.0' # Use SCSS for stylesheets
 gem 'bourbon', github: 'thoughtbot/bourbon'
 
 gem 'jquery-rails' # Bundles jQuery and the UJS adapter for it
-gem 'coffee-rails'
 gem 'bootstrap-sass', '~> 2.3.2.2' # SCSS version of bootstrap (usable mixins)
 gem 'turbolinks', '~> 5'
 gem 'haml' # Adds HAML support along with custom generators
-gem "uglifier", ">= 1.3.0"
+gem 'uglifier', '>= 1.3.0'
 
 gem 'bootsnap', '>= 1.4.2', require: false
 
-gem 'mongoid'#, github: 'mongoid/mongoid'
+gem 'mongoid'
 gem 'bson_ext'
-# gem 'mongoid-indifferent-access', require: 'mongoid_indifferent_access'
 gem 'kaminari'
+gem 'kaminari-mongoid'
 
 gem 'tire'
 # gem 'tire-contrib', require: 'tire/rails/logger'

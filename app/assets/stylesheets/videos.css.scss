@@ -14,7 +14,7 @@ body.videos {
         li {
           margin: 0;
           padding: 10px;
-          @include linear-gradient(top, #333, #222);
+          background: linear-gradient(top, #333, #222);
           position: absolute;
           display: none;
           left: 0;
@@ -22,50 +22,73 @@ body.videos {
 
           &[class*='_on'] {
             float: left;
-            position: relative }
+            position: relative;
+          }
 
           img {
             margin: 0 auto;
-            display:block }
+            display: block;
+          }
 
           .timestamp {
             position: absolute;
             bottom: 0;
             padding: 5px;
             font-size: 1.5em;
-            color: white } } }
+            color: white;
+          }
+        }
+      }
 
-        .rslides_tabs {
-          margin: 0 auto;
-          list-style: none;
-          @include box-shadow(0 0 1px rgba(255, 255, 255, 0.3), inset 0 0 5px rgba(0, 0, 0, 1));
-          @include linear-gradient(top, #333, #222);
+      .rslides_tabs {
+        margin: 0 auto;
+        list-style: none;
+        background: box-shadow(
+          0 0 1px rgba(255, 255, 255, 0.3),
+          inset 0 0 5px rgba(0, 0, 0, 1)
+        );
+        background: linear-gradient(top, #333, #222);
 
-          li {
-            float: left;
-            margin:1.05%;
-            width: 9%;
+        li {
+          float: left;
+          margin: 1.05%;
+          width: 9%;
 
-            img {
-              width:100% } } } } }
+          img {
+            width: 100%;
+          }
+        }
+      }
+    }
+  }
 
-    .metadata {
-      margin: 0 auto;
-      float: none }
+  .metadata {
+    margin: 0 auto;
+    float: none;
+  }
 
   &.index {
     th.tablesorter-header:hover {
       cursor: pointer;
-      background-color: #DBDBDB }
+      background-color: #dbdbdb;
+    }
     .dataTables_info {
-      margin:5px }
+      margin: 5px;
+    }
 
     .dataTables_paginate {
-      float: left }
+      float: left;
+    }
 
     .thumbnails li {
       margin: 0 0 18px 20px;
 
-      .thumbnail  {
+      .thumbnail {
         height: 325px;
-        .thumbnail-title { text-align: center } } } } }
+        .thumbnail-title {
+          text-align: center;
+        }
+      }
+    }
+  }
+}

@@ -1,5 +1,4 @@
 //= require jquery
-//= require jquery.turbolinks
 //= require turbolinks
 //= require jquery_ujs
 //= require bootstrap-alert
@@ -9,5 +8,3 @@
 //= require bootstrap-collapse
 //= require chosen.jquery
 //= require responsiveslides
-//= require dataTables/jquery.dataTables
-//= require dataTables/jquery.dataTables.bootstrap
