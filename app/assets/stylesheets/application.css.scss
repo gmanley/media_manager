@@ -1,15 +1,23 @@
 @charset 'UTF-8';
 
 @import 'libraries';
+@import 'datatables';
 @import 'videos';
 
-.page-header h1 { text-align: center }
+.page-header h1 {
+  text-align: center;
+}
 
-a { color: black }
+a {
+  color: black;
+}
 
-section { padding-top: 60px }
+section {
+  padding-top: 60px;
+}
 
 footer {
   margin-top: 40px;
-  border-top: 1px solid #E5E5E5;
-  padding: 35px 0 36px }
+  border-top: 1px solid #e5e5e5;
+  padding: 35px 0 36px;
+}
