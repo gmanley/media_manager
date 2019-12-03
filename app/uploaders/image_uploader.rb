@@ -2,10 +2,7 @@
 
 class ImageUploader < CarrierWave::Uploader::Base
   include CarrierWave::MiniMagick
-  include CarrierWave::MimeTypes
   include ActionView::Helpers::AssetTagHelper
-
-  process :set_content_type
 
   version(:large)  { resize_to_fit(600, 600) }
   version(:medium) { resize_to_fit(400, 400) }
