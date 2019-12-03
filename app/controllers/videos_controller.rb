@@ -24,7 +24,7 @@ class VideosController < ApplicationController
     if download_url = video.download_url
       redirect_to(download_url)
     else
-      send_file(video.file_path, filename: video.filename)
+      send_file(video.file_path, filename: video.name)
     end
   end
 
