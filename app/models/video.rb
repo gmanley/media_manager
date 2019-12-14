@@ -22,6 +22,17 @@ class Video
   include Elasticsearch::Model
   include Elasticsearch::Model::Callbacks
 
+  # This only covers 2000-2019 videos.
+  # TODO: figure out a way to configure this
+  ASSUMED_YEAR_CENTURY = '20'
+  NUMERAL_DATE_REGEX = /
+    (?<year>(20)?(01|02|03|04|05|06|07|08|09|10|11|12|13|14|15|16|17|18|19))
+    (?<separator>\.|\-|\/)?
+    (?<month>0[1-9]|1[012])
+    (\k<separator>)?
+    (?<day>0[1-9]|\.[1-9]|[12][0-9]|3[01])
+  /x
+
   # mappings dynamic: false do
   #   indexes :model_id, index: :not_analyzed
   #   indexes :name,     type: 'multi_field', fields: {
@@ -84,13 +95,27 @@ class Video
     end
   end
 
+  def set_air_date
+    match = NUMERAL_DATE_REGEX.match(name)
+    if match
+      # TODO: Should figure out a better way to do this
+      year = match[:year]
+      year.prepend(ASSUMED_YEAR_CENTURY) if year.length == 2
+
+      self.air_date = DateTime.strptime(
+        "#{year}-#{match[:month]}-#{match[:day]}",
+        '%Y-%m-%d'
+      )
+    end
+  end
+
   def ffmpeg
     @ffmpeg ||= FFMPEG::Movie.new(file_path)
   end
 
-  def to_indexed_json
+  def as_indexed_json(options = {})
     {
-      _id:       _id,
+      model_id:  id,
       air_date:  air_date,
       name:      name,
       formated_duration:  formated_duration,
