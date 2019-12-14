@@ -22,8 +22,8 @@ gem 'bson_ext'
 gem 'kaminari'
 gem 'kaminari-mongoid'
 
-gem 'tire'
-# gem 'tire-contrib', require: 'tire/rails/logger'
+gem 'elasticsearch-model'
+gem 'elasticsearch-rails'
 
 gem 'jquery-datatables'
 
