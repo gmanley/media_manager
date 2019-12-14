@@ -19,6 +19,8 @@
 
 %section.metadata.col-10#metadata
   %h3 Metadata
+  %ul
+    %li #{@video.file_hash}
   .accordion
     - @video.file_metadata&.each do |section_name, section_content|
       .card
