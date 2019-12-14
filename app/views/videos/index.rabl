@@ -7,7 +7,6 @@ node(:aaData) do
     [
       link_to(video.name, video),
       video.formated_air_date,
-      video.formated_duration,
       video.file_hash
     ]
   end
