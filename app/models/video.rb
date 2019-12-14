@@ -19,18 +19,18 @@ class Video
   field :processed,     type: Boolean, default: false
   field :download_url,  type: String
 
-  include Tire::Model::Search
-  include Tire::Model::Callbacks
+  include Elasticsearch::Model
+  include Elasticsearch::Model::Callbacks
 
-  mapping do
-    indexes :_id,      index: :not_analyzed
-    indexes :name,     type: 'multi_field', fields: {
-      name:          { type: 'string', analyzer: 'snowball' },
-      name_sortable: { type: 'string', index: :not_analyzed }
-    }
-    indexes :air_date, type: 'date'
-    indexes :formated_air_date, type: 'string'
-  end
+  # mappings dynamic: false do
+  #   indexes :model_id, index: :not_analyzed
+  #   indexes :name,     type: 'multi_field', fields: {
+  #     name:          { type: 'string', analyzer: 'snowball' },
+  #     name_sortable: { type: 'string', index: :not_analyzed }
+  #   }
+  #   indexes :air_date, type: 'date'
+  #   indexes :formated_air_date, type: 'string'
+  # end
 
   def self.scan(path, options = {})
     VideoScanner.new(path, options).perform
