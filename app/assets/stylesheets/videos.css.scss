@@ -4,11 +4,13 @@ body.videos {
       margin: 0 auto;
       float: none;
       max-width: 800px;
+      background: linear-gradient(top, #333, #222);
 
       .rslides {
         position: relative;
         list-style: none;
         overflow: hidden;
+        padding: 0;
         margin: 0;
 
         li {
@@ -42,11 +44,10 @@ body.videos {
 
       .rslides_tabs {
         margin: 0 auto;
+        padding-left: 0;
         list-style: none;
-        background: box-shadow(
-          0 0 1px rgba(255, 255, 255, 0.3),
-          inset 0 0 5px rgba(0, 0, 0, 1)
-        );
+        box-shadow: 0 0 1px rgba(255, 255, 255, 0.3),
+          inset 0 0 5px rgba(0, 0, 0, 1);
         background: linear-gradient(top, #333, #222);
 
         li {
@@ -65,6 +66,15 @@ body.videos {
   .metadata {
     margin: 0 auto;
     float: none;
+
+    .card {
+      border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+      margin-bottom: 5px;
+    }
+
+    .card-header {
+      background-color: #fff;
+    }
   }
 
   &.index {

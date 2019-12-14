@@ -1,11 +1,7 @@
 //= require rails-ujs
-//= require jquery
+//= require jquery3
 //= require turbolinks
-//= require bootstrap-alert
-//= require bootstrap-dropdown
-//= require bootstrap-transition
-//= require bootstrap-button
-//= require bootstrap-collapse
+//= require bootstrap-sprockets
 //= require chosen.jquery
 //= require responsiveslides
 //= require utils

@@ -10,7 +10,7 @@ gem 'sass-rails', '~> 5.0' # Use SCSS for stylesheets
 gem 'bourbon', github: 'thoughtbot/bourbon'
 
 gem 'jquery-rails' # Bundles jQuery and the UJS adapter for it
-gem 'bootstrap-sass', '~> 2.3.2.2' # SCSS version of bootstrap (usable mixins)
+gem 'bootstrap', '~> 4.4.1'
 gem 'turbolinks', '~> 5'
 gem 'haml' # Adds HAML support along with custom generators
 gem 'uglifier', '>= 1.3.0'

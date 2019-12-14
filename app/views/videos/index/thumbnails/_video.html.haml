@@ -1,5 +1,5 @@
-%li.span3
-  = link_to(video, class: 'thumbnail') do
+.col-xl-3.col-lg-4.col-md-4.col-6
+  = link_to(video, class: 'thumbnail d-block mb-4') do
     %h4.thumbnail-title= video.name
     - if video.snapshot_index
       = image_tag(video.snapshot_index.image_url(:medium))

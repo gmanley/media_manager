@@ -4,28 +4,30 @@
     %i.icon-download-alt.icon-white
     Download
 
-.slider-container.span10
-  %ul.snapshots.row-fluid
+.slider-container.col-10
+  %ul.snapshots.row
     - @video.snapshots.processed.each do |snapshot|
-      %li.span12
+      %li.col-12
         = image_tag(escape_snapshot_url(snapshot.image_url(:large)))
         %p.timestamp=snapshot.formated_video_time
 
-  %ul.rslides_tabs.rslides1_tabs.row-fluid
+  %ul.rslides_tabs.rslides1_tabs.row
     - @video.snapshots.processed.each_with_index do |snapshot, i|
       %li
         = link_to '#', class: "rslides1_s#{i + 1}" do
           = image_tag(escape_snapshot_url(snapshot.image_url(:tiny)))
 
-%section.metadata.span10
+%section.metadata.col-10#metadata
   %h3 Metadata
   .accordion
     - @video.file_metadata&.each do |section_name, section_content|
-      .accordion-group
-        .accordion-heading
-          %a.accordion-toggle{href: "##{section_name}Metadata", data: {toggle: 'collapse'}}
-            %h4= section_name.titleize
-          %div.collapse.accordion-body{id: "#{section_name}Metadata"}
+      .card
+        .card-header
+          %h4
+            %button.btn.btn-link.collapsed{type: 'button', data: {toggle: 'collapse', target: "##{section_name}-metadata"}, aria: { expanded: false, controls: "#{section_name}-metadata" }}
+              = section_name.titleize
+        .collapse{id: "#{section_name}-metadata", data: { parent: '#metadata' }}
+          .card-body
             %ul.accordion-inner.unstyled.well
               - section_content.first.each do |k, v|
                 %li <strong>#{k.titleize}</strong>: #{v}
