@@ -48,10 +48,7 @@ class Video
   end
 
   def self.formated_duration_from_seconds(duration)
-    hours = (duration / 3600)
-    minutes = (duration / 60) - (hours * 60)
-    seconds = duration % 60
-    "%02d:" % hours + "%02d:" % minutes + "%02d" % seconds
+    Time.at(duration).utc.strftime("%H:%M:%S")
   end
 
   def self.paginate(options = {})
