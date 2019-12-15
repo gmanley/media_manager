@@ -28,15 +28,15 @@ class SnapshotIndex
     return false unless can_create_index?
 
     a = Magick::ImageList.new
-    resolution = video.video_resolution # for w/e reason this is needed for video_size to be defined
 
+    video_height = video.height
     snapshots.each do |snapshot|
       image = Magick::Image.from_blob(snapshot.image.read).first
       image.annotate(Magick::Draw.new, 0, 0, 50, 10, snapshot.formated_video_time) do
         self.font_family = 'Helvetica'
         self.fill = 'white'
         self.stroke = 'black'
-        self.pointsize = resolution.last / 15
+        self.pointsize = video_height / 15
         self.font_weight = Magick::BoldWeight
         self.gravity = Magick::SouthEastGravity
       end
@@ -47,7 +47,7 @@ class SnapshotIndex
     a.montage do
       self.background_color = 'transparent'
       self.border_color = 'transparent'
-      self.border_width = resolution.last / 120
+      self.border_width = video_height / 120
     end
 
     b = Magick::ImageList.new
