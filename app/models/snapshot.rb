@@ -1,14 +1,9 @@
-class Snapshot
-  include Mongoid::Document
-  include Mongoid::Timestamps
+class Snapshot < ApplicationRecord
+  belongs_to :snapshot_index
 
-  embedded_in :snapshot_index
   delegate :video, to: :snapshot_index
 
   mount_uploader :image, ImageUploader
-
-  field :video_time, type: Float
-  field :processed, type: Boolean, default: false
 
   def self.processed
     where(processed: true)

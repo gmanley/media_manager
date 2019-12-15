@@ -1,13 +1,8 @@
-class SnapshotIndex
-  include Mongoid::Document
-  include Mongoid::Timestamps
-
-  embedded_in :video
-  embeds_many :snapshots, cascade_callbacks: true
+class SnapshotIndex < ApplicationRecord
+  belongs_to :video
+  has_many :snapshots
 
   mount_uploader :image, ImageUploader
-
-  field :grid_size, type: Array, default: [3, 3]
 
   def total_snapshots
     grid_size.reduce(1, :*)

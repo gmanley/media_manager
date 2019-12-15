@@ -1,9 +1,6 @@
-class Event
-  include Mongoid::Document
-  include Mongoid::Timestamps
+# class Event < ApplicationRecord
+#   has_many :performances
 
-  has_many :segments
-
-  field :name, type: String
-  field :possible_names, type: Array
-end
+#   field :name, type: String
+#   field :possible_names, type: Array
+# end
