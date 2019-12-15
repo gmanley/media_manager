@@ -21,6 +21,8 @@ class Video
 
   include Elasticsearch::Model
   include Elasticsearch::Model::Callbacks
+  # From the samples I used this value is 1.333.
+  NON_SQUARE_PIXEL_ASPECT_RATIO = (1.1..)
 
   # This only covers 2000-2019 videos.
   # TODO: figure out a way to configure this
@@ -78,18 +80,30 @@ class Video
     "#{air_date.strftime('%Y.%m.%d')}" if air_date
   end
 
-  def video_resolution
+  def set_duration
     if file_metadata.present?
-      @video_resolution ||= [:width, :height].collect do |key|
-        file_metadata[:video].first[key].gsub(/\D/, '').to_i
-      end
+      self.duration = file_metadata[:general].first[:duration].to_f
     end
   end
 
-  def set_duration
-    if file_metadata.present?
-      self.duration = file_metadata[:general][0][:duration].to_f
-    end
+  def non_square_pixel?
+    NON_SQUARE_PIXEL_ASPECT_RATIO.cover?(pixel_aspect_ratio)
+  end
+
+  def calculated_width
+    width * pixel_aspect_ratio
+  end
+
+  def height
+    @height ||= file_metadata[:video].first[:height].gsub(/\D/, '').to_i
+  end
+
+  def width
+    @width ||= file_metadata[:video].first[:width].gsub(/\D/, '').to_i
+  end
+
+  def pixel_aspect_ratio
+    @pixel_aspect_ratio ||= file_metadata[:video].first[:pixel_aspect_ratio].to_f
   end
 
   def set_air_date
