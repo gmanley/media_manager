@@ -5,6 +5,7 @@ class VideoProcessingWorker
     video = Video.find(video_id)
     video.set_metadata
     video.set_duration
+    video.set_air_date
     video.save!
 
     VideoHashsumWorker.perform_async(video.id.to_s)
