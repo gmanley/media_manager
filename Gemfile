@@ -17,10 +17,8 @@ gem 'uglifier', '>= 1.3.0'
 
 gem 'bootsnap', '>= 1.4.2', require: false
 
-gem 'mongoid'
-gem 'bson_ext'
+gem 'pg', '>= 0.18', '< 2.0'
 gem 'kaminari'
-gem 'kaminari-mongoid'
 
 gem 'elasticsearch-model'
 gem 'elasticsearch-rails'
@@ -35,7 +33,6 @@ gem 'simple_form' # Better rails form helpers
 # gem 'multi_fetch_fragments' # Speeds up collection partial rendering
 
 gem 'carrierwave' # File uploading
-gem 'carrierwave-mongoid', require: 'carrierwave/mongoid'
 gem 'mini_magick' # Image processing (rmagick alternative)
 gem 'fog' # Cloud service ruby client (used by carrierwave for S3 support)
 gem 'rmagick', github: 'rmagick/rmagick'

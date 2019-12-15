@@ -8,7 +8,7 @@ class VideoProcessingWorker
     video.set_air_date
     video.save!
 
-    VideoHashsumWorker.perform_async(video.id.to_s)
-    SnapshotsWorker.perform_async(video.id.to_s)
+    VideoHashsumWorker.perform_async(video.id)
+    SnapshotsWorker.perform_async(video.id)
   end
 end

@@ -7,7 +7,7 @@ class VideosController < ApplicationController
                  page: page, per_page: per_page,
                  sort: "#{sort_column} #{sort_direction}")
     else
-      @videos = Video.order_by([[sort_column, sort_direction]])
+      @videos = Video.order(sort_column => sort_direction)
                      .page(page).per(per_page)
     end
 

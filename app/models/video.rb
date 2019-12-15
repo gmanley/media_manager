@@ -3,24 +3,15 @@ require 'digest/md5'
 require 'find'
 require 'pathname'
 
-class Video
-  include Mongoid::Document
-  include Mongoid::Timestamps
+class Video < ApplicationRecord
+  has_one :snapshot_index
+  delegate :snapshots, to: :snapshot_index
 
-  embeds_one :snapshot_index
-  delegate   :snapshots, to: :snapshot_index
+  before_create :set_name
 
-  field :file_metadata, type: Hash,   default: {}
-  field :file_path,     type: String
-  field :file_hash,     type: String
-  field :name,          type: String, default: -> { default_name }
-  field :air_date,      type: Date
-  field :duration,      type: Float
-  field :processed,     type: Boolean, default: false
-  field :download_url,  type: String
+  # include Elasticsearch::Model
+  # include Elasticsearch::Model::Callbacks
 
-  include Elasticsearch::Model
-  include Elasticsearch::Model::Callbacks
   # From the samples I used this value is 1.333.
   NON_SQUARE_PIXEL_ASPECT_RATIO = (1.1..)
 
@@ -132,6 +123,10 @@ class Video
       formated_duration:  formated_duration,
       formated_air_date: formated_air_date
     }.to_json
+  end
+
+  def set_name
+    self.name = default_name
   end
 
   def set_metadata
