@@ -48,7 +48,7 @@ gem 'sidekiq-batch'
 gem 'unicode'
 gem 'differ'
 
-gem 'puma', '~> 3.11'
+gem 'puma', '~> 3.12'
 
 gem 'pry-rails' # Replaces regular rails console with a pry session
 
