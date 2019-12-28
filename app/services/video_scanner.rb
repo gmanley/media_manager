@@ -1,3 +1,5 @@
+require 'find'
+
 class VideoScanner
   VIDEO_EXTENSIONS = %w[
     3gp asf asx avi flv m2t m2ts m2v m4v mkv

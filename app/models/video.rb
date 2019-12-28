@@ -56,7 +56,7 @@ class Video < ApplicationRecord
   end
 
   def file_path
-    source_files.find(primary_file_id).path
+    source_files.find(primary_source_file_id).path
   end
 
   def default_name
