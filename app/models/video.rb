@@ -7,6 +7,9 @@ class Video < ApplicationRecord
   has_one :snapshot_index
   delegate :snapshots, to: :snapshot_index
 
+  has_many :source_files
+  belongs_to :primary_source_file, class_name: 'SourceFile'#, primary_key: :primary_source_file_id
+
   before_create :set_name
 
   # include Elasticsearch::Model
@@ -50,6 +53,10 @@ class Video < ApplicationRecord
 
   def file_metadata
     super.with_indifferent_access
+  end
+
+  def file_path
+    source_files.find(primary_file_id).path
   end
 
   def default_name

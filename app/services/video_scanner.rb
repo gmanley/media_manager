@@ -18,7 +18,11 @@ class VideoScanner
       path = path.mb_chars.compose.to_s
 
       if video_file?(path)
-        video = Video.find_or_create_by!(file_path: path)
+        source_file = SourceFile.find_or_create_by!(path: path)
+        video = source_file.video || Video.create(
+          primary_source_file_id: source_file.id,
+          source_files: [source_file]
+        )
         VideoProcessingWorker.perform_async(video.id.to_s)
 
         count += 1

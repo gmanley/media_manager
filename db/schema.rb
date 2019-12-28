@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_15_015342) do
+ActiveRecord::Schema.define(version: 2019_12_28_002901) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -34,9 +34,17 @@ ActiveRecord::Schema.define(version: 2019_12_15_015342) do
     t.index ["snapshot_index_id"], name: "index_snapshots_on_snapshot_index_id"
   end
 
+  create_table "source_files", force: :cascade do |t|
+    t.string "path", null: false
+    t.bigint "video_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["path"], name: "index_source_files_on_path"
+    t.index ["video_id"], name: "index_source_files_on_video_id"
+  end
+
   create_table "videos", force: :cascade do |t|
     t.jsonb "file_metadata"
-    t.string "file_path", null: false
     t.string "file_hash"
     t.string "name", null: false
     t.date "air_date"
@@ -45,7 +53,7 @@ ActiveRecord::Schema.define(version: 2019_12_15_015342) do
     t.string "download_url"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["file_path"], name: "index_videos_on_file_path"
+    t.bigint "primary_source_file_id", null: false
   end
 
 end
