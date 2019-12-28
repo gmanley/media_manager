@@ -21,7 +21,7 @@ class Snapshot < ApplicationRecord
         "ffmpeg -ss #{video_time}",
         "-i #{video.file_path.shellescape}",
         "-vframes 1 -an -f rawvideo -vcodec mjpeg"
-      ].join
+      ]
       args << "-vf scale=#{video.calculated_width}:#{video.height}" if video.non_square_pixel?
       args << "#{snapshot_path.shellescape} >/dev/null 2>&1"
 
