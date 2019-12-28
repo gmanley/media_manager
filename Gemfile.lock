@@ -127,7 +127,7 @@ GEM
       faraday
       multi_json
     erubi (1.9.0)
-    excon (0.69.1)
+    excon (0.71.1)
     execjs (2.7.0)
     fabrication (2.21.0)
     fakefs (0.20.1)
