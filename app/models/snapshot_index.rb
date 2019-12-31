@@ -9,8 +9,8 @@ class SnapshotIndex < ApplicationRecord
   end
 
   def snapshot_times
-    increment = video.duration / total_snapshots
-    (increment..video.duration).step(increment).map do |i|
+    increment = video.duration.to_f / total_snapshots
+    (increment..video.duration.to_f).step(increment).map do |i|
       (i - increment / total_snapshots).floor
     end
   end
