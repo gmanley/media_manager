@@ -71,7 +71,7 @@ class Video < ApplicationRecord
   end
 
   def formated_duration
-    self.class.formated_duration_from_seconds(duration) if duration
+    self.class.formated_duration_from_seconds(duration.to_f) if duration
   end
 
   def formated_air_date
