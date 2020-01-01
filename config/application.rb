@@ -23,6 +23,8 @@ module MediaManager
   class Application < Rails::Application
     config.load_defaults 5.2
 
+    config.active_record.schema_format = :sql
+
     config.generators do |g|
       g.test_framework      :rspec, fixture: true
       g.fixture_replacement :fabrication
