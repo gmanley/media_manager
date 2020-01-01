@@ -3,9 +3,7 @@ class VideosController < ApplicationController
 
   def index
     if query.present?
-      @videos = Video.tire.search(query,
-                 page: page, per_page: per_page,
-                 sort: "#{sort_column} #{sort_direction}")
+      @videos = Video.search(query).per(per_page).page(page).records.order(sort_column => sort_direction)
     else
       @videos = Video.order(sort_column => sort_direction)
                      .page(page).per(per_page)
