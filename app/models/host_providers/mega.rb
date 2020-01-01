@@ -22,8 +22,8 @@ module HostProviders
         "-p #{@password}"
       ]
       ext_name = File.extname(@video.primary_source_file.path)
-      path = (File.join(['/Root', @remote_path, @video.name].compact) << ext_name).shellescape
-      args << "--path #{path}"
+      path = File.join(['/Root', @remote_path, @video.name].compact) << ext_name
+      args << "--path #{path.shellescape}"
       args << @video.primary_source_file.path.shellescape
 
       if system(args.join(' '))
@@ -32,11 +32,11 @@ module HostProviders
           "-u #{@username}",
           "-p #{@password}",
           '-e',
-          path
+          path.shellescape
         ]
 
         url = %x[#{args.join(' ')}].strip.split(' ').first
-        @response = Response.new(url, path, true)
+        @response = Response.new(path, url, true)
       else
         @response = Response.new(nil, nil, false)
       end
