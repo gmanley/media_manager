@@ -15,7 +15,34 @@ module HostProviders
       @password = ENV['MEGA_PASSWORD']
     end
 
-    def perform
+    def get_url(path)
+      args = [
+        'megals',
+        "-u #{@username}",
+        "-p #{@password}",
+        '-e',
+        path.shellescape
+      ]
+
+      %x[#{args.join(' ')}].strip.split(' ').first
+    end
+
+    def status
+      args = [
+        'megadf',
+        "-u #{@username}",
+        "-p #{@password}"
+      ]
+      response = %x[#{args.join(' ')}]
+      match = response.match(/Total:\s+(?<total>\d+)\nUsed:\s+(?<used>\d+)\nFree:\s+(?<free>\d+)/)
+      {
+        total_space: match[:total],
+        free_space: match[:free],
+        used_space: match[:used]
+      }
+    end
+
+    def upload
       args = [
         'megaput',
         "-u #{@username}",
@@ -27,15 +54,7 @@ module HostProviders
       args << @video.primary_source_file.path.shellescape
 
       if system(args.join(' '))
-        args = [
-          'megals',
-          "-u #{@username}",
-          "-p #{@password}",
-          '-e',
-          path.shellescape
-        ]
-
-        url = %x[#{args.join(' ')}].strip.split(' ').first
+        url = get_url(path)
         @response = Response.new(path, url, true)
       else
         @response = Response.new(nil, nil, false)

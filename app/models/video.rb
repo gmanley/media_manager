@@ -14,8 +14,8 @@ class Video < ApplicationRecord
 
   before_create :set_name
 
-  # include Elasticsearch::Model
-  # include Elasticsearch::Model::Callbacks
+  include Elasticsearch::Model
+  include Elasticsearch::Model::Callbacks
 
   # From the samples I used this value is 1.333.
   NON_SQUARE_PIXEL_ASPECT_RATIO = (1.1..)
@@ -31,12 +31,12 @@ class Video < ApplicationRecord
     (?<day>0[1-9]|\.[1-9]|[12][0-9]|3[01])
   /x
 
-  # mappings dynamic: false do
-  #   indexes :model_id, index: :not_analyzed
-  #   indexes :name,     type: 'multi_field', fields: {
-  #     name:          { type: 'string', analyzer: 'snowball' },
-  #     name_sortable: { type: 'string', index: :not_analyzed }
-  #   }
+  # mappings dynamic: true do
+  #   indexes :model_id, type: 'string', analyzer: :keyword
+  #   indexes :name do
+  #     indexes :name, analyzer: :snowball
+  #     indexes :name_sortable, analyzer: :keyword
+  #   end
   #   indexes :air_date, type: 'date'
   #   indexes :formated_air_date, type: 'string'
   # end
@@ -50,7 +50,7 @@ class Video < ApplicationRecord
   end
 
   def upload_to(provider:, remote_path: nil)
-    response = HostProviders[provider].new(self, remote_path: remote_path).perform
+    response = HostProviders[provider].new(self, remote_path: remote_path).upload
     if response.success?
       uploads.create(
         host_provider: provider,
@@ -131,15 +131,15 @@ class Video < ApplicationRecord
     @ffmpeg ||= FFMPEG::Movie.new(file_path)
   end
 
-  def as_indexed_json(options = {})
-    {
-      model_id:  id,
-      air_date:  air_date,
-      name:      name,
-      formated_duration:  formated_duration,
-      formated_air_date: formated_air_date
-    }.to_json
-  end
+  # def as_indexed_json(options = {})
+  #   {
+  #     model_id:  id.to_s,
+  #     air_date:  air_date,
+  #     name:      name,
+  #     formated_duration:  formated_duration,
+  #     formated_air_date: formated_air_date
+  #   }.to_json
+  # end
 
   def set_name
     self.name = default_name
