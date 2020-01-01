@@ -15,7 +15,7 @@ module HostProviders
         "-u #{@username}",
         "-p #{@password}"
       ]
-      args << "--path #{@remote_path}" if remote_path
+      args << "--path #{@remote_path}" if @remote_path
       args << @video.primary_source_file.path.shellescape
 
       system(args.join(' '))
