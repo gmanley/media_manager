@@ -19,6 +19,7 @@ class CreateUploads < ActiveRecord::Migration[5.2]
 
     create_table :uploads do |t|
       t.string :url, null: false
+      t.string :remote_path
       t.boolean :online, null: false, default: true, index: true
       t.boolean :public, null: false, default: true, index: true
       t.column :host_provider, :host_providers, null: false, index: true

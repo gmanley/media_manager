@@ -2,6 +2,12 @@ require 'shellwords'
 
 module HostProviders
   class Mega
+    Response = Struct.new(:path, :url, :success) do
+      def success?
+        success
+      end
+    end
+
     def initialize(video, remote_path: nil)
       @video = video
       @remote_path = remote_path
@@ -15,10 +21,25 @@ module HostProviders
         "-u #{@username}",
         "-p #{@password}"
       ]
-      args << "--path #{@remote_path}" if @remote_path
+      ext_name = File.extname(@video.primary_source_file.path)
+      path = (File.join(['/Root', @remote_path, @video.name].compact) << ext_name).shellescape
+      args << "--path #{path}"
       args << @video.primary_source_file.path.shellescape
 
-      system(args.join(' '))
+      if system(args.join(' '))
+        args = [
+          'megals',
+          "-u #{@username}",
+          "-p #{@password}",
+          '-e',
+          path
+        ]
+
+        url = %x[#{args.join(' ')}].strip.split(' ').first
+        @response = Response.new(url, path, true)
+      else
+        @response = Response.new(nil, nil, false)
+      end
     end
   end
 end

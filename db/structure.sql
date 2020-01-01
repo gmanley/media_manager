@@ -150,6 +150,7 @@ ALTER SEQUENCE public.source_files_id_seq OWNED BY public.source_files.id;
 CREATE TABLE public.uploads (
     id bigint NOT NULL,
     url character varying NOT NULL,
+    remote_path character varying,
     online boolean DEFAULT true NOT NULL,
     public boolean DEFAULT true NOT NULL,
     host_provider public.host_providers NOT NULL,
