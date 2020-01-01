@@ -1,7 +1,7 @@
 object false
 node(:sEcho) { params[:sEcho].to_i }
 node(:iTotalRecords) { Video.count }
-node(:iTotalDisplayRecords) { @videos.total_count }
+node(:iTotalDisplayRecords) { @videos.count }
 node(:aaData) do
   @videos.map do |video|
     [
