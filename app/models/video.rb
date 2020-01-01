@@ -50,7 +50,7 @@ class Video < ApplicationRecord
   end
 
   def upload_to(provider:, remote_path: nil)
-    HostProviders[provider].new(video, remote_path: remote_path).perform
+    HostProviders[provider].new(self, remote_path: remote_path).perform
   end
 
   def file_metadata
