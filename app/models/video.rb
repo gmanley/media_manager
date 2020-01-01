@@ -50,7 +50,14 @@ class Video < ApplicationRecord
   end
 
   def upload_to(provider:, remote_path: nil)
-    HostProviders[provider].new(self, remote_path: remote_path).perform
+    response = HostProviders[provider].new(self, remote_path: remote_path).perform
+    if response.success?
+      uploads.create(
+        host_provider: provider,
+        url: response.url,
+        remote_path: response.path
+      )
+    end
   end
 
   def file_metadata
