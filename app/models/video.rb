@@ -8,7 +8,9 @@ class Video < ApplicationRecord
   delegate :snapshots, to: :snapshot_index
 
   has_many :source_files
-  belongs_to :primary_source_file, class_name: 'SourceFile'#, primary_key: :primary_source_file_id
+  belongs_to :primary_source_file, class_name: 'SourceFile'
+
+  has_many :uploads
 
   before_create :set_name
 
@@ -47,12 +49,12 @@ class Video < ApplicationRecord
     Time.at(duration).utc.strftime("%H:%M:%S")
   end
 
-  def self.paginate(options = {})
-    page(options[:page]).per(options[:per_page])
+  def upload_to(provider:, remote_path: nil)
+    HostProviders[provider].new(video, remote_path: remote_path).perform
   end
 
   def file_metadata
-    super.with_indifferent_access
+    super&.with_indifferent_access
   end
 
   def file_path
