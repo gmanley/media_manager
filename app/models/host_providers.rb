@@ -1,9 +1,9 @@
 module HostProviders
   ALL = [
-    Mega
+    mega: Mega
   ]
 
   def self.[](provider)
-    provider.to_sym
+    ALL[provider.to_sym]
   end
 end
