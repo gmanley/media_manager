@@ -31,15 +31,15 @@ class Video < ApplicationRecord
     (?<day>0[1-9]|\.[1-9]|[12][0-9]|3[01])
   /x
 
-  mappings dynamic: true do
-    indexes :model_id, type: 'string', analyzer: :keyword
-    indexes :name do
-      indexes :name, analyzer: :snowball
-      indexes :name_sortable, analyzer: :keyword
-    end
-    indexes :air_date, type: 'date'
-    indexes :formated_air_date, type: 'string'
-  end
+  # mappings dynamic: true do
+  #   indexes :model_id, type: 'string', analyzer: :keyword
+  #   indexes :name do
+  #     indexes :name, analyzer: :snowball
+  #     indexes :name_sortable, analyzer: :keyword
+  #   end
+  #   indexes :air_date, type: 'date'
+  #   indexes :formated_air_date, type: 'string'
+  # end
 
   def self.scan(path, options = {})
     VideoScanner.new(path, options).perform
@@ -49,7 +49,7 @@ class Video < ApplicationRecord
     Time.at(duration).utc.strftime("%H:%M:%S")
   end
 
-  def upload_to(provider:, remote_path: nil)
+  def upload_to(provider, remote_path: nil)
     response = HostProviders[provider].new(self, remote_path: remote_path).upload
     if response.success?
       uploads.create(
@@ -58,6 +58,26 @@ class Video < ApplicationRecord
         remote_path: response.path
       )
     end
+  end
+
+  def create_mega_account(email:, password:, name:)
+    response = HostProviders[:mega].new(self).create_account(
+      username: email,
+      password: password,
+      name: name
+    )
+    host_provider = HostProvider.find_by(name: 'mega')
+
+    HostProviderAccount.create(
+      username: email,
+      password: password,
+      name: name,
+      online: false,
+      host_provider_id: host_provider.id,
+      info: {
+        verify_command: response
+      }
+    )
   end
 
   def file_metadata

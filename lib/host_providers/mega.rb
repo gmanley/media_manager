@@ -8,11 +8,23 @@ module HostProviders
       end
     end
 
-    def initialize(video, remote_path: nil)
-      @video = video
-      @remote_path = remote_path
-      @username = ENV['MEGA_USERNAME']
-      @password = ENV['MEGA_PASSWORD']
+    def initialize(username: nil, password: nil)
+      @username = username
+      @password = password
+    end
+
+    def create_account(username:, password:, name:)
+      args = [
+        'megareg',
+        "-e #{username}",
+        "-p #{password}",
+        "-n #{name}",
+        '--register',
+        '--scripted'
+      ]
+
+      output = %x[#{args.join(' ')}]
+      binding.pry
     end
 
     def get_url(path)
@@ -42,16 +54,16 @@ module HostProviders
       }
     end
 
-    def upload
+    def upload(video, remote_path: nil)
       args = [
         'megaput',
         "-u #{@username}",
         "-p #{@password}"
       ]
-      ext_name = File.extname(@video.primary_source_file.path)
-      path = File.join(['/Root', @remote_path, @video.name].compact) << ext_name
+      ext_name = File.extname(video.primary_source_file.path)
+      path = File.join(['/Root', remote_path, video.name].compact) << ext_name
       args << "--path #{path.shellescape}"
-      args << @video.primary_source_file.path.shellescape
+      args << video.primary_source_file.path.shellescape
 
       if system(args.join(' '))
         url = get_url(path)
