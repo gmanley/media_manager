@@ -3,10 +3,9 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '2.6.5'
 
-# gem 'rails', '~> 6.0.0'
-gem 'rails', '~> 5.2'
+gem 'rails', '~> 6.0.2', '>= 6.0.2.1'
 
-gem 'sass-rails', '~> 5.0' # Use SCSS for stylesheets
+gem 'sass-rails', '>= 6'
 gem 'bourbon', github: 'thoughtbot/bourbon'
 
 gem 'jquery-rails' # Bundles jQuery and the UJS adapter for it
@@ -14,6 +13,9 @@ gem 'bootstrap', '~> 4.4.1'
 gem 'turbolinks', '~> 5'
 gem 'haml' # Adds HAML support along with custom generators
 gem 'uglifier', '>= 1.3.0'
+gem 'jbuilder', '~> 2.7'
+
+gem 'image_processing', '~> 1.2'
 
 gem 'bootsnap', '>= 1.4.2', require: false
 
@@ -48,7 +50,11 @@ gem 'sidekiq-batch'
 gem 'unicode'
 gem 'differ'
 
-gem 'puma', '~> 3.11'
+# Latest version 0.10 doesn't allow configuring content type
+# Master version added support for doing so.
+gem 'mail_room', git: 'https://github.com/tpitale/mail_room'
+
+gem 'puma', '~> 4.1'
 
 gem 'pry-rails' # Replaces regular rails console with a pry session
 
@@ -70,6 +76,7 @@ group :test do
 end
 
 group :development, :test do
+  gem 'dotenv-rails'
   gem 'rspec-rails' # Test framework
   gem 'fabrication' # Fixtures replacement
   gem 'ffaker' # Test data generation
