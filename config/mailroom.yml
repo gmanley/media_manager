@@ -1,0 +1,12 @@
+---
+:mailboxes:
+  -
+    :email: <%= ENV['GMAIL_USERNAME'] %>
+    :password: <%= ENV['GMAIL_PASSWORD'] %>
+    :name: inbox
+    :delivery_method: postback
+    :delivery_options:
+      :url: <%= ENV['ROOT_URL'] %>/rails/action_mailbox/relay/inbound_emails
+      :username: actionmailbox
+      :password: <%= ENV['RAILS_INBOUND_EMAIL_PASSWORD'] %>
+      :content_type: 'message/rfc822'

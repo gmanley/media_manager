@@ -31,15 +31,15 @@ class Video < ApplicationRecord
     (?<day>0[1-9]|\.[1-9]|[12][0-9]|3[01])
   /x
 
-  # mappings dynamic: true do
-  #   indexes :model_id, type: 'string', analyzer: :keyword
-  #   indexes :name do
-  #     indexes :name, analyzer: :snowball
-  #     indexes :name_sortable, analyzer: :keyword
-  #   end
-  #   indexes :air_date, type: 'date'
-  #   indexes :formated_air_date, type: 'string'
-  # end
+  mappings dynamic: true do
+    indexes :model_id, type: 'string', analyzer: :keyword
+    indexes :name do
+      indexes :name, analyzer: :snowball
+      indexes :name_sortable, analyzer: :keyword
+    end
+    indexes :air_date, type: 'date'
+    indexes :formated_air_date, type: 'string'
+  end
 
   def self.scan(path, options = {})
     VideoScanner.new(path, options).perform

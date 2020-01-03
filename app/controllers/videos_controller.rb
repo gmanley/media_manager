@@ -37,12 +37,7 @@ class VideosController < ApplicationController
 
   def sort_column
     columns = %w[name air_date duration]
-    column = columns[params[:iSortCol_0].to_i]
-    if column == 'name' && query.present?
-      column << '_sortable'
-    else
-      column
-    end
+    columns[params[:iSortCol_0].to_i]
   end
 
   def page
