@@ -23,8 +23,7 @@ module HostProviders
         '--scripted'
       ]
 
-      output = %x[#{args.join(' ')}]
-      binding.pry
+      %x[#{args.join(' ')}]
     end
 
     def get_url(path)

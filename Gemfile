@@ -53,6 +53,8 @@ gem 'differ'
 # Latest version 0.10 doesn't allow configuring content type
 # Master version added support for doing so.
 gem 'mail_room', git: 'https://github.com/tpitale/mail_room'
+# Required by mail_room if using sidekiq delivery_method
+gem 'charlock_holmes'
 
 gem 'puma', '~> 4.1'
 
