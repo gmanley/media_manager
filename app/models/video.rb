@@ -60,26 +60,6 @@ class Video < ApplicationRecord
     end
   end
 
-  def create_mega_account(email:, password:, name:)
-    response = HostProviders[:mega].new(self).create_account(
-      username: email,
-      password: password,
-      name: name
-    )
-    host_provider = HostProvider.find_by(name: 'mega')
-
-    HostProviderAccount.create(
-      username: email,
-      password: password,
-      name: name,
-      online: false,
-      host_provider_id: host_provider.id,
-      info: {
-        verify_command: response
-      }
-    )
-  end
-
   def file_metadata
     super&.with_indifferent_access
   end
