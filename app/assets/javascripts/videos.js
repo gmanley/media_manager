@@ -9,9 +9,9 @@ $(document).on('ready turbolinks:load', function() {
   });
 
   $('#videos_table').dataTable({
-    // sPaginationType: 'bootstrap',
-    bProcessing: true,
-    bServerSide: true,
-    sAjaxSource: $('#videos_table').data('source')
+    pagingType: 'full_numbers',
+    processing: true,
+    serverSide: true,
+    ajax: $('#videos_table').data('source')
   });
 });
