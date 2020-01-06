@@ -1,8 +1,8 @@
 object false
-node(:sEcho) { params[:sEcho].to_i }
-node(:iTotalRecords) { Video.count }
-node(:iTotalDisplayRecords) { @videos.count }
-node(:aaData) do
+node(:draw) { params[:draw].to_i }
+node(:recordsTotal) { Video.count }
+node(:recordsFiltered) { Video.count }
+node(:data) do
   @videos.map do |video|
     [
       link_to(video.name, video),
