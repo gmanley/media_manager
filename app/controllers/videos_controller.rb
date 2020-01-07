@@ -7,9 +7,9 @@ class VideosController < ApplicationController
       @video_count = filtered_videos.count
       @videos = filtered_videos.page(page).per(per_page).order(sort_column => sort_direction)
     else
+      @video_count = Video.count
       @videos = Video.order(sort_column => sort_direction)
                      .page(page).per(per_page)
-      @video_count = @videos.count
     end
 
     respond_with(@videos)
@@ -39,7 +39,7 @@ class VideosController < ApplicationController
   end
 
   def sort_column
-    columns = %w[name air_date file_hash]
+    columns = %w[name air_date file_hash csv_number]
     return columns.first unless sort_options
     columns[sort_options[:column].to_i]
   end
