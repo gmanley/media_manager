@@ -3,9 +3,9 @@ class VideosController < ApplicationController
 
   def index
     if query.present?
-      filtered_videos = Video.search(query)
+      filtered_videos = Video.search_full_text(query)
       @video_count = filtered_videos.count
-      @videos = filtered_videos.per(per_page).page(page).records.order(sort_column => sort_direction)
+      @videos = filtered_videos.page(page).per(per_page).order(sort_column => sort_direction)
     else
       @videos = Video.order(sort_column => sort_direction)
                      .page(page).per(per_page)

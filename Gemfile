@@ -21,9 +21,7 @@ gem 'bootsnap', '>= 1.4.2', require: false
 
 gem 'pg', '>= 0.18', '< 2.0'
 gem 'kaminari'
-
-gem 'elasticsearch-model'
-gem 'elasticsearch-rails'
+gem 'pg_search'
 
 gem 'jquery-datatables'
 
