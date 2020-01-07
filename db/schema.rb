@@ -16,36 +16,6 @@ ActiveRecord::Schema.define(version: 2020_01_07_005550) do
   enable_extension "pg_trgm"
   enable_extension "plpgsql"
 
-  create_table "action_mailbox_inbound_emails", force: :cascade do |t|
-    t.integer "status", default: 0, null: false
-    t.string "message_id", null: false
-    t.string "message_checksum", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["message_id", "message_checksum"], name: "index_action_mailbox_inbound_emails_uniqueness", unique: true
-  end
-
-  create_table "active_storage_attachments", force: :cascade do |t|
-    t.string "name", null: false
-    t.string "record_type", null: false
-    t.bigint "record_id", null: false
-    t.bigint "blob_id", null: false
-    t.datetime "created_at", null: false
-    t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
-    t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
-  end
-
-  create_table "active_storage_blobs", force: :cascade do |t|
-    t.string "key", null: false
-    t.string "filename", null: false
-    t.string "content_type"
-    t.text "metadata"
-    t.bigint "byte_size", null: false
-    t.string "checksum", null: false
-    t.datetime "created_at", null: false
-    t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
-  end
-
   create_table "host_provider_accounts", force: :cascade do |t|
     t.string "name"
     t.string "username", null: false
@@ -102,12 +72,12 @@ ActiveRecord::Schema.define(version: 2020_01_07_005550) do
     t.boolean "online", default: true, null: false
     t.boolean "public", default: true, null: false
     t.bigint "host_provider_id"
-    t.bigint "host_providers_account_id"
+    t.bigint "host_provider_account_id"
     t.bigint "video_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["host_provider_account_id"], name: "index_uploads_on_host_provider_account_id"
     t.index ["host_provider_id"], name: "index_uploads_on_host_provider_id"
-    t.index ["host_providers_account_id"], name: "index_uploads_on_host_providers_account_id"
     t.index ["online"], name: "index_uploads_on_online"
     t.index ["public"], name: "index_uploads_on_public"
     t.index ["video_id"], name: "index_uploads_on_video_id"
@@ -127,5 +97,4 @@ ActiveRecord::Schema.define(version: 2020_01_07_005550) do
     t.integer "csv_number"
   end
 
-  add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
 end

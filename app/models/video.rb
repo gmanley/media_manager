@@ -57,7 +57,8 @@ class Video < ApplicationRecord
       uploads.create(
         host_provider_id: HostProvider.find_by(name: provider).id,
         url: response.url,
-        remote_path: response.path
+        remote_path: response.path,
+        host_providers_account_id: account.id
       )
     end
   end
