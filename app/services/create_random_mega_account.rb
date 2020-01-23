@@ -1,7 +1,7 @@
 require 'securerandom'
 
 class CreateRandomMegaAccount
-  def intialize(base_email:)
+  def initialize(base_email:)
     @base_email = base_email
     @base_email_username, @base_email_domain = base_email.split('@')
   end
