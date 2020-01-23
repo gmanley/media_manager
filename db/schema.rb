@@ -21,7 +21,7 @@ ActiveRecord::Schema.define(version: 2020_01_23_024406) do
     t.string "username", null: false
     t.string "password", null: false
     t.boolean "online", default: true, null: false
-    t.integer "free_space", default: 0, null: false
+    t.bigint "free_space", default: 0, null: false
     t.jsonb "info"
     t.bigint "host_provider_id"
     t.datetime "created_at", null: false
