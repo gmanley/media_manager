@@ -7,7 +7,7 @@ class InboundEmailWorker
     mail = Mail::Message.new(message)
 
     if mail.from.first == MEGA_EMAIL
-      VerifyMegaAccount.new(email_body: mail.html_part.body.to_s).perform
+      VerifyMegaAccount.new(mail: mail).perform
     end
   end
 end
