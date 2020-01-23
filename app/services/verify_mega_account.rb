@@ -4,7 +4,7 @@ class VerifyMegaAccount
   end
 
   def perform
-    doc = Nokogiri::HTML(mail.html_part.body.to_s)
+    doc = Nokogiri::HTML(@email_body)
     verify_link = doc.at('//a[text()[contains(., "Verify my email")]]')
     if verify_link
       account_email = mail.to.first
