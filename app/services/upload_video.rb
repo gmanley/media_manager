@@ -7,13 +7,7 @@ class UploadVideo
   end
 
   def perform
-    provider_client = HostProviders[@provider_name].new(
-      username: @account.username,
-      password: @account.password
-    )
-
-    response = provider_client.upload(@video, remote_path: @remote_path)
-
+    response = @account.client.upload(@video, remote_path: @remote_path)
     if response.success?
       @video.uploads.create(
         host_provider_id: HostProvider.find_by(name: @provider_name).id,
@@ -22,9 +16,7 @@ class UploadVideo
         host_provider_account_id: @account.id
       )
 
-      if provider_client.check_usage?
-        @video.update(used_space: provider_client.status[:used_space])
-      end
+      @account.check_and_update_free_space
     end
   end
 end

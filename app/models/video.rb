@@ -47,20 +47,12 @@ class Video < ApplicationRecord
     Time.at(duration).utc.strftime("%H:%M:%S")
   end
 
-  def upload_to(provider, account:, remote_path: nil)
-    response = HostProviders[provider].new(
-      username: account.username,
-      password: account.password
-    ).upload(self, remote_path: remote_path)
-
-    if response.success?
-      uploads.create(
-        host_provider_id: HostProvider.find_by(name: provider).id,
-        url: response.url,
-        remote_path: response.path,
-        host_provider_account_id: account.id
-      )
-    end
+  def upload_to(provider_name, account:, remote_path: nil)
+    UploadVideo.new(self,
+      provider_name,
+      account: account,
+      remote_path: remote_path
+    )
   end
 
   def file_metadata
