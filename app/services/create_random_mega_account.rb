@@ -17,7 +17,7 @@ class CreateRandomMegaAccount
       email: email,
       password: password,
       name: email.split('@').first
-    )
+    ).perform
   end
 
   private
