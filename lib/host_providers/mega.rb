@@ -13,6 +13,10 @@ module HostProviders
       @password = password
     end
 
+    def check_usage?
+      true
+    end
+
     def create_account(username:, password:, name:)
       args = [
         'megareg',
