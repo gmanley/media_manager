@@ -31,8 +31,10 @@
             #{@video.formated_air_date}
 
 %section.uploads.col-10
-  - @video.uploads.each do |upload|
-    = link_to upload.host_provider.name, upload.url
+  %h3 Uploads
+  .row
+    - @video.uploads.each do |upload|
+      = link_to upload.host_provider.name, upload.url
 
 %section.metadata.col-10#metadata
   %h3 Metadata
