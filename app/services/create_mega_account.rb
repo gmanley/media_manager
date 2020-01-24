@@ -21,6 +21,7 @@ class CreateMegaAccount
       name: @name,
       online: false,
       host_provider_id: host_provider.id,
+      total_storage: host_provider.default_storage_limit,
       info: {
         verify_command: response
       }

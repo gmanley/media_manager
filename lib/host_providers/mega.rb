@@ -51,9 +51,9 @@ module HostProviders
       response = %x[#{args.join(' ')}]
       match = response.match(/Total:\s+(?<total>\d+)\nUsed:\s+(?<used>\d+)\nFree:\s+(?<free>\d+)/)
       {
-        total_space: match[:total],
-        free_space: match[:free],
-        used_space: match[:used]
+        total_storage: match[:total],
+        free_storage: match[:free],
+        used_storage: match[:used]
       }
     end
 

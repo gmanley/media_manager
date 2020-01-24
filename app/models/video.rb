@@ -82,6 +82,12 @@ class Video < ApplicationRecord
     "#{air_date.strftime('%Y.%m.%d')}" if air_date
   end
 
+  def file_size
+    if file_metadata.present?
+      file_metadata[:general].first[:file_size].to_i
+    end
+  end
+
   def set_duration
     if file_metadata.present?
       self.duration = file_metadata[:general].first[:duration].to_f
