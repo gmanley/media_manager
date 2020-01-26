@@ -14,8 +14,6 @@ class Video < ApplicationRecord
 
   before_create :set_name
 
-  include PgSearch::Model
-
   # From the samples I used this value is 1.333.
   NON_SQUARE_PIXEL_ASPECT_RATIO = (1.1..)
 
@@ -30,14 +28,11 @@ class Video < ApplicationRecord
     (?<day>0[1-9]|\.[1-9]|[12][0-9]|3[01])
   /x
 
-  pg_search_scope :search_full_text,
-    against: {
-      name: 'A',
-      air_date: 'B',
-    },
-    using: {
-      tsearch: { any_word: true }
-    }
+  searchable do
+    text :name
+    text :formated_air_date
+    date :air_date
+  end
 
   def self.scan(path, options = {})
     VideoScanner.new(path, options).perform
@@ -52,7 +47,7 @@ class Video < ApplicationRecord
       provider_name,
       account: account,
       remote_path: remote_path
-    )
+    ).perform
   end
 
   def file_metadata

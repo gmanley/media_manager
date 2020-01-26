@@ -32,9 +32,8 @@
 
 %section.uploads.col-10
   %h3 Uploads
-  .row
-    - @video.uploads.each do |upload|
-      = link_to upload.host_provider.name, upload.url
+  - @video.uploads.each do |upload|
+    = link_to upload.host_provider.name, upload.url
 
 %section.metadata.col-10#metadata
   %h3 Metadata
