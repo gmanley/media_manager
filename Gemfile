@@ -21,7 +21,7 @@ gem 'bootsnap', '>= 1.4.2', require: false
 
 gem 'pg', '>= 0.18', '< 2.0'
 gem 'kaminari'
-gem 'pg_search'
+gem 'sunspot_rails'
 
 gem 'jquery-datatables'
 
@@ -59,6 +59,7 @@ gem 'puma', '~> 4.1'
 gem 'pry-rails' # Replaces regular rails console with a pry session
 
 group :development do
+  gem 'sunspot_solr'
   gem 'better_errors' # Amazing replacement of default rails error page
   gem 'binding_of_caller', platform: :ruby # Needed by better_errors for enhanced functionality
 

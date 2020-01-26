@@ -3,9 +3,14 @@ class VideosController < ApplicationController
 
   def index
     if query.present?
-      filtered_videos = Video.search_full_text(query)
-      @video_count = filtered_videos.count
-      @videos = filtered_videos.page(page).per(per_page).order(sort_column => sort_direction)
+      # binding.pry
+      filtered_videos = Video.search do
+        fulltext(query)
+        order_by(sort_column.to_sym, :sort_direction)
+        paginate(page: page, per_page: per_page)
+      end
+      @video_count = filtered_videos.total_count
+      @videos = filtered_videos.results
     else
       @video_count = Video.count
       @videos = Video.order(sort_column => sort_direction)
@@ -35,7 +40,7 @@ class VideosController < ApplicationController
   end
 
   def sort_direction
-    sort_options&.fetch(:dir) || :asc
+    sort_options&.fetch(:dir) || :desc
   end
 
   def sort_column
