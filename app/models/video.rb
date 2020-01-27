@@ -30,9 +30,13 @@ class Video < ApplicationRecord
 
   searchable do
     text :name
-    text :formated_air_date
+    string :name_sortable
+    string :file_hash
+    string :csv_number
     date :air_date
   end
+
+  alias_attribute :name_sortable, :name
 
   def self.scan(path, options = {})
     VideoScanner.new(path, options).perform

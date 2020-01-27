@@ -6,11 +6,12 @@ class VideosController < ApplicationController
       # binding.pry
       filtered_videos = Video.search do
         fulltext(query)
-        order_by(sort_column.to_sym, :sort_direction)
+        order_by(sort_column(search_sort_columns), sort_direction)
         paginate(page: page, per_page: per_page)
       end
-      @video_count = filtered_videos.total_count
+
       @videos = filtered_videos.results
+      @video_count = @videos.total_count
     else
       @video_count = Video.count
       @videos = Video.order(sort_column => sort_direction)
@@ -43,10 +44,17 @@ class VideosController < ApplicationController
     sort_options&.fetch(:dir) || :desc
   end
 
-  def sort_column
-    columns = %w[name air_date file_hash csv_number]
-    return columns.first unless sort_options
-    columns[sort_options[:column].to_i]
+  def search_sort_columns
+    %w[name_sortable air_date file_hash csv_number]
+  end
+
+  def index_sort_columns
+    %w[name air_date file_hash csv_number]
+  end
+
+  def sort_column(column_list = index_sort_columns)
+    return column_list.first unless sort_options
+    column_list[sort_options[:column].to_i]
   end
 
   def sort_options

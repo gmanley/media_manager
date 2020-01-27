@@ -24,4 +24,7 @@ public/uploads
 yarn-debug.log*
 .yarn-integrity
 
-/solr/*/data
+/solr/*/data/*
+/solr/pids/*
+!/solr/pids/.keep
+!/solr/*/data/.keep

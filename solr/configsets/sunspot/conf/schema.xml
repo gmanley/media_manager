@@ -59,17 +59,25 @@
     <!-- *** This fieldType is used by Sunspot! *** -->
     <fieldType name="rand" class="solr.RandomSortField" omitNorms="true"/>
     <!-- *** This fieldType is used by Sunspot! *** -->
-    <fieldType name="text" class="solr.TextField" omitNorms="false" multiValued="false">
-      <analyzer>
-        <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="\[(.+?)\]" replacement="$1 "/>
-        <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="\((.+?)\)" replacement="$1 "/>
-        <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="(\d{2,4})\.(\d{2})\.(\d{2,4})" replacement="$1-$2-$3"/>
-        <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="\." replacement=" "/>
+    <fieldType name="text" class="solr.TextField" omitNorms="false">
+      <analyzer type="index">
+        <filter class="solr.PatternReplaceFilterFactory" pattern="\[(.+?)\]" replacement="$1 "/>
+        <filter class="solr.PatternReplaceFilterFactory" pattern="\((.+?)\)" replacement="$1 "/>
+        <filter class="solr.PatternReplaceFilterFactory" pattern="([0-9]{2,4})[-/\.]([0-9]{2})[-/\.]([0-9]{2,4})" replacement="$1 $2 $3"/>
+        <!-- <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="[-/\.]" replacement=" "/> -->
         <tokenizer class="solr.StandardTokenizerFactory"/>
-        <filter class="solr.StandardFilterFactory"/>
         <filter class="solr.LowerCaseFilterFactory"/>
         <filter class="solr.PorterStemFilterFactory"/>
-
+        <filter class="solr.NGramFilterFactory" minGramSize="3" maxGramSize="15"/>
+      </analyzer>
+      <analyzer type="query">
+        <filter class="solr.PatternReplaceFilterFactory" pattern="\[(.+?)\]" replacement="$1 "/>
+        <filter class="solr.PatternReplaceFilterFactory" pattern="\((.+?)\)" replacement="$1 "/>
+        <filter class="solr.PatternReplaceFilterFactory" pattern="([0-9]{2,4})[-/\.]([0-9]{2})[-/\.]([0-9]{2,4})" replacement="$1 $2 $3"/>
+        <!-- <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="[-/\.]" replacement=" "/> -->
+        <tokenizer class="solr.StandardTokenizerFactory"/>
+        <filter class="solr.LowerCaseFilterFactory"/>
+        <filter class="solr.PorterStemFilterFactory"/>
       </analyzer>
     </fieldType>
     <!-- *** This fieldType is used by Sunspot! *** -->
@@ -95,7 +103,6 @@
     <fieldType name="textSpell" class="solr.TextField" positionIncrementGap="100" omitNorms="true">
       <analyzer>
         <tokenizer class="solr.StandardTokenizerFactory"/>
-        <filter class="solr.StandardFilterFactory"/>
         <filter class="solr.LowerCaseFilterFactory"/>
       </analyzer>
     </fieldType>
@@ -267,10 +274,6 @@
       Unless this field is marked with required="false", it will be a required field
    -->
   <uniqueKey>id</uniqueKey>
-  <!-- field for the QueryParser to use when an explicit fieldname is absent -->
-  <defaultSearchField>text</defaultSearchField>
-  <!-- SolrQueryParser configuration: defaultOperator="AND|OR" -->
-  <solrQueryParser defaultOperator="AND"/>
   <!-- copyField commands copy one field to another at the time a document
         is added to the index.  It's used either to index the same field differently,
         or to add multiple fields to the same field for easier/faster
