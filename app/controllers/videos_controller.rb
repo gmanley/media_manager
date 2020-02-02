@@ -2,20 +2,16 @@ class VideosController < ApplicationController
   respond_to :html, :json
 
   def index
-    if query.present?
-      # binding.pry
-      filtered_videos = Video.search do
-        fulltext(query)
-        order_by(sort_column(search_sort_columns), sort_direction)
-        paginate(page: page, per_page: per_page)
-      end
 
-      @videos = filtered_videos.results
-      @video_count = @videos.total_count
+    if query.present?
+      @videos = VideosIndex::Video.query(match: {name: query })
+        .order(sort_column(search_sort_columns) => sort_direction)
+        .page(page).per(per_page)
+      @video_count = @videos.size
     else
       @video_count = Video.count
       @videos = Video.order(sort_column => sort_direction)
-                     .page(page).per(per_page)
+        .page(page).per(per_page)
     end
 
     respond_with(@videos)

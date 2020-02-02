@@ -28,15 +28,7 @@ class Video < ApplicationRecord
     (?<day>0[1-9]|\.[1-9]|[12][0-9]|3[01])
   /x
 
-  searchable do
-    text :name
-    string :name_sortable
-    string :file_hash
-    string :csv_number
-    date :air_date
-  end
-
-  alias_attribute :name_sortable, :name
+  # update_index('videos#video') { self }
 
   def self.scan(path, options = {})
     VideoScanner.new(path, options).perform
