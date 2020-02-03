@@ -58,6 +58,7 @@ class SnapshotIndex < ApplicationRecord
         page.x = j * b.columns
         page.y = i * b.rows
         b.page = page
+        # FIXME: This is a bad use of rescue
         (a.scene += 1) rescue a.scene = 0
       end
     end
