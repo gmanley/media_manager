@@ -17,8 +17,8 @@
         = link_to '#', class: "rslides1_s#{i + 1}" do
           = image_tag(escape_snapshot_url(snapshot.image_url(:tiny)))
 
-%section.calculated-info.col-10
-  %h3 Calculated Info
+%section.extra-info.col-10
+  %h3 Extra Info
   .accordion
     .card.bg-light
       .card-body
@@ -29,6 +29,9 @@
           %li
             %strong Air Date:
             #{@video.formated_air_date}
+          %li
+            %strong External ID
+            #{@video.external_id}
 
 %section.uploads.col-10
   %h3 External Uploads

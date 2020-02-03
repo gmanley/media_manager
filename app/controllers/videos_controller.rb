@@ -40,12 +40,15 @@ class VideosController < ApplicationController
     sort_options&.fetch(:dir) || :desc
   end
 
+  # Elasticsearch columns that are indexed for advanced search can't be sorted.
+  # To get around this you can create sortable duplicates of the columns
+  # that have a keyword type which can be sorted.
   def search_sort_columns
-    %w[name_sortable air_date file_hash csv_number]
+    %w[name_sortable air_date file_hash external_id]
   end
 
   def index_sort_columns
-    %w[name air_date file_hash csv_number]
+    %w[name air_date file_hash external_id]
   end
 
   def sort_column(column_list = index_sort_columns)

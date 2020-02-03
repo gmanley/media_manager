@@ -42,7 +42,7 @@ class VideosIndex < Chewy::Index
     field :name_sortable, type: 'keyword', value: ->(v) { v.name }
     field :formated_air_date, type: 'keyword', value: ->(v) { v.formated_air_date }
     field :file_hash, type: 'keyword'
-    field :csv_number, type: 'keyword'
+    field :external_id, type: 'keyword'
     field :air_date, type: 'date'
   end
 end
