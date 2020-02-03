@@ -31,7 +31,7 @@ gem 'yajl-ruby'
 gem 'responders' # Customize respond_with behavior
 gem 'simple_form' # Better rails form helpers
 # gem 'multi_fetch_fragments' # Speeds up collection partial rendering
-
+gem 'clearance'
 gem 'carrierwave' # File uploading
 gem 'mini_magick' # Image processing (rmagick alternative)
 gem 'fog' # Cloud service ruby client (used by carrierwave for S3 support)

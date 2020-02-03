@@ -1,9 +1,7 @@
-#clearance.password-reset
+%section#clearance.password-reset
   %h2= t('.title')
   %p= t('.description')
-  = form_for :password, url: passwords_path do |form|
-    .text-field
-      = form.label :email
-      = form.text_field :email, type: 'email'
-    .submit-field
-      = form.submit
+  = simple_form_for :password, url: passwords_path do |f|
+    = f.input :email
+    .form-group
+      = f.button :submit, class: 'btn-primary'
