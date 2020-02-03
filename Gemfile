@@ -59,7 +59,6 @@ gem 'puma', '~> 4.1'
 gem 'pry-rails' # Replaces regular rails console with a pry session
 
 group :development do
-  gem 'sunspot_solr'
   gem 'better_errors' # Amazing replacement of default rails error page
   gem 'binding_of_caller', platform: :ruby # Needed by better_errors for enhanced functionality
 
