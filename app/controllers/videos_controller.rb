@@ -1,8 +1,9 @@
 class VideosController < ApplicationController
   respond_to :html, :json
 
-  def index
+  before_action :set_video, only: [:show, :edit, :update]
 
+  def index
     if query.present?
       @videos = VideosIndex::Video.query(match: {name: query })
         .order(sort_column(search_sort_columns) => sort_direction)
@@ -18,7 +19,15 @@ class VideosController < ApplicationController
   end
 
   def show
-    @video = Video.find(params[:id])
+    respond_with(@video)
+  end
+
+  def edit
+    respond_with(@video)
+  end
+
+  def update
+    @video.update(video_params)
     respond_with(@video)
   end
 
@@ -32,6 +41,15 @@ class VideosController < ApplicationController
   end
 
   private
+
+  def set_video
+    @video = Video.find(params[:id])
+  end
+
+  def video_params
+    params.require(:video).permit(:name, :external_id, :air_date)
+  end
+
   def query
     params.dig(:search, :value)
   end

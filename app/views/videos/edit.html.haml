@@ -1,0 +1,8 @@
+%section
+  %h2 Editing Video
+
+  = simple_form_for(@video, html: { class: 'form' }) do |f|
+    = f.input :name
+    = f.input :air_date
+    = f.input :external_id, label: 'External ID'
+    = f.button :submit, class: 'btn-primary'

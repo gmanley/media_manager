@@ -7,7 +7,7 @@ module ApplicationHelper
   }
 
   def bootstrap_flash_class(type)
-    BOOTSTRAP_FLASH_CLASS.fetch(type, type.to_s)
+    BOOTSTRAP_FLASH_CLASS.fetch(type.to_sym, type.to_s)
   end
 
   def flash_messages
@@ -19,7 +19,7 @@ module ApplicationHelper
   private
 
   def flash_message(type, message)
-    haml_tag :div, class: "alert alert-#{bootstrap_flash_class(type)} fade in" do
+    haml_tag :div, class: "alert alert-#{bootstrap_flash_class(type)} fade show" do
       haml_tag 'a.close', '×', data: { dismiss: 'alert' }
       haml_concat(message)
     end

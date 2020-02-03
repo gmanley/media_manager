@@ -1,6 +1,6 @@
-.view_links
-  = link_to('Thumbnail View', videos_path(view_type: 'thumbnails'), class: 'btn')
-  = link_to('Table View', videos_path(view_type: 'table'), class: 'btn')
+.view-links
+  = link_to('Thumbnail View', videos_path(view_type: 'thumbnails'), class: "btn btn-light #{'active' if thumbnail_view?}")
+  = link_to('Table View', videos_path(view_type: 'table'), class: "btn btn-light #{'active' if table_view?}")
 
 %section
   = render "videos/index/#{view_type}"

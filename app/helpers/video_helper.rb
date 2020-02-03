@@ -1,4 +1,11 @@
 module VideoHelper
+  def table_view?
+    params[:view_type] == 'table'
+  end
+
+  def thumbnail_view?
+    !table_view?
+  end
 
   def escape_snapshot_url(url)
     url_array = File.split(url)

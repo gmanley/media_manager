@@ -81,6 +81,10 @@ body.videos {
   }
 
   &.index {
+    .view-links {
+      padding-top: 30px;
+    }
+
     th.tablesorter-header:hover {
       cursor: pointer;
       background-color: #dbdbdb;
