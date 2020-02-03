@@ -38,6 +38,19 @@ class Video < ApplicationRecord
     Time.at(duration).utc.strftime("%H:%M:%S")
   end
 
+  def self.without_snapshot_index
+    left_joins(:snapshot_index).where(snapshot_indices: { video_id: nil })
+  end
+
+  def self.without_uploads
+    left_joins(:uploads).where(uploads: { video_id: nil })
+  end
+
+  def self.with_multiple_source_files
+    # FIXME: This scope doesn't behave has expected when calling `count` on the results.
+    left_joins(:source_files).having('count(source_files.id) > 0').group('videos.id')
+  end
+
   def upload_to(provider_name, account:, remote_path: nil)
     UploadVideo.new(self,
       provider_name,
