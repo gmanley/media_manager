@@ -62,5 +62,5 @@ Rails.application.configure do
 
   config.middleware.insert 0, Middleware::TurboDev
 
-  config.hosts << 'ef1bd0b1.ngrok.io'
+  config.action_mailer.default_url_options = { host: ENV['HOST'] || 'localhost:3000' }
 end
