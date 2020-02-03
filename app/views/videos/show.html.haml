@@ -1,4 +1,4 @@
-.page-header
+.page-header.pb-2.mt-4.mb-2.border-bottom
   %h1= @video.name
   %a.btn.btn-primary{href: download_video_path(@video)}
     %i.icon-download-alt.icon-white
@@ -9,7 +9,7 @@
 
 .slider-container.col-10
   %ul.snapshots.row
-    - @video.snapshots.processed.each do |snapshot|
+    - @video.snapshots.order(video_time: :asc).processed.each do |snapshot|
       %li.col-12
         = image_tag(escape_snapshot_url(snapshot.image_url(:large)))
         %p.timestamp=snapshot.formated_video_time
