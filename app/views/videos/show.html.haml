@@ -17,7 +17,7 @@
         = link_to '#', class: "rslides1_s#{i + 1}" do
           = image_tag(escape_snapshot_url(snapshot.image_url(:tiny)))
 
-%section.metadata.col-10
+%section.calculated-info.col-10
   %h3 Calculated Info
   .accordion
     .card.bg-light
@@ -31,9 +31,13 @@
             #{@video.formated_air_date}
 
 %section.uploads.col-10
-  %h3 Uploads
-  - @video.uploads.each do |upload|
-    = link_to upload.host_provider.name, upload.url
+  %h3 External Uploads
+  .card.bg-light
+    .card-body
+      - if @video.uploads.empty?
+        No External Uploads
+      - @video.uploads.each do |upload|
+        = link_to upload.host_provider.name, upload.url, class: 'btn btn-primary'
 
 %section.metadata.col-10#metadata
   %h3 Metadata

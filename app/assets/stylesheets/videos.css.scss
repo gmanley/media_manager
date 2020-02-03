@@ -65,10 +65,11 @@ body.videos {
     }
   }
 
-  .metadata {
+  section {
     margin: 0 auto;
-    float: none;
+  }
 
+  .metadata {
     .card {
       border-bottom: 1px solid rgba(0, 0, 0, 0.125);
       margin-bottom: 5px;
