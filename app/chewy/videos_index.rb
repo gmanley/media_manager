@@ -40,9 +40,9 @@ class VideosIndex < Chewy::Index
   define_type Video do
     field :name, type: 'text', analyzer: 'video_file_name'
     field :name_sortable, type: 'keyword', value: ->(v) { v.name }
-    field :formated_air_date, value: ->(v) { v.formated_air_date }
-    field :file_hash, type: 'text', analyzer: 'keyword'
-    field :csv_number, type: 'text', analyzer: 'keyword'
+    field :formated_air_date, type: 'keyword', value: ->(v) { v.formated_air_date }
+    field :file_hash, type: 'keyword'
+    field :csv_number, type: 'keyword'
     field :air_date, type: 'date'
   end
 end
