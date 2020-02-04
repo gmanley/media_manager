@@ -1,11 +1,13 @@
 .page-header.pb-2.mt-4.mb-2.border-bottom
   %h1= @video.name
-  %a.btn.btn-primary{href: download_video_path(@video)}
-    %i.icon-download-alt.icon-white
-    Download
-  %a.btn.btn-primary{href: edit_video_path(@video)}
-    %i.icon-edit.icon-white
-    Edit
+  - if policy(@video).download?
+    %a.btn.btn-primary{href: download_video_path(@video)}
+      %i.icon-download-alt.icon-white
+      Download
+  - if policy(@video).edit?
+    %a.btn.btn-primary{href: edit_video_path(@video)}
+      %i.icon-edit.icon-white
+      Edit
 
 .slider-container.col-10
   %ul.snapshots.row
@@ -36,14 +38,15 @@
             %strong External ID
             #{@video.external_id}
 
-%section.uploads.col-10
-  %h3 External Uploads
-  .card.bg-light
-    .card-body
-      - if @video.uploads.empty?
-        No External Uploads
-      - @video.uploads.each do |upload|
-        = link_to upload.host_provider.name, upload.url, class: 'btn btn-primary'
+- if policy(Upload).index?
+  %section.uploads.col-10
+    %h3 External Uploads
+    .card.bg-light
+      .card-body
+        - if @uploads.empty?
+          No External Uploads
+        - @uploads.each do |upload|
+          = link_to upload.host_provider.name, upload.url, class: 'btn btn-primary'
 
 %section.metadata.col-10#metadata
   %h3 Metadata

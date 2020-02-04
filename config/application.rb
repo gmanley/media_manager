@@ -29,6 +29,8 @@ module MediaManager
     config.eager_load_paths << Rails.root.join('lib')
     config.autoload_paths << Rails.root.join('lib')
 
+    config.active_record.schema_format = :sql
+
     config.generators do |g|
       g.test_framework      :rspec, fixture: true
       g.fixture_replacement :fabrication

@@ -1,9 +1,10 @@
 class VideosController < ApplicationController
   respond_to :html, :json
 
-  before_action :set_video, only: [:show, :edit, :update]
+  before_action :set_video, only: [:show, :edit, :update, :download]
 
   def index
+    authorize(Video)
     if query.present?
       @videos = VideosIndex::Video.query(match: {name: query })
         .order(sort_column(search_sort_columns) => sort_direction)
@@ -19,20 +20,24 @@ class VideosController < ApplicationController
   end
 
   def show
+    authorize(@video)
+    @uploads = policy_scope(@video.uploads)
     respond_with(@video)
   end
 
   def edit
+    authorize(@video)
     respond_with(@video)
   end
 
   def update
+    authorize(@video)
     @video.update(video_params)
     respond_with(@video)
   end
 
   def download
-    video = Video.find(params[:id])
+    authorize(@video)
     if download_url = video.download_url
       redirect_to(download_url)
     else
