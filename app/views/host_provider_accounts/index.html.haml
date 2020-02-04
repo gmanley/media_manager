@@ -1,0 +1,23 @@
+%h1 Host Provider Accounts
+%table.table
+  %thead
+    %tr
+      %th Provider
+      %th Username
+      %th Online
+      %th Used Storage
+      %th Total Storage
+      %th{colspan: '3'}
+  %tbody
+    - @host_provider_accounts.each do |host_provider_account|
+      %tr
+        %th= host_provider_account.host_provider.name
+        %th= host_provider_account.username
+        %th= host_provider_account.online
+        %th= host_provider_account.used_storage
+        %th= host_provider_account.total_storage
+        %td= link_to 'Show', host_provider_account
+        %td= link_to 'Edit', edit_host_provider_account_path(host_provider_account)
+        %td= link_to 'Destroy', host_provider_account, method: :delete, data: { confirm: 'Are you sure?' }
+%br/
+= link_to 'New Host Provider Account', new_host_provider_account_path

@@ -1,0 +1,13 @@
+= simple_form_for(@host_provider_account) do |f|
+  = f.error_notification
+  = f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present?
+  .form-inputs
+    = f.association :host_provider, label_method: :name, value_method: :id, include_blank: false
+    = f.input :name
+    = f.input :username
+    = f.input :password
+    = f.input :online
+    = f.input :total_storage
+    = f.input :used_storage, disabled: true
+  .form-actions
+    = f.button :submit, class: 'btn-primary'

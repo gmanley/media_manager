@@ -1,0 +1,33 @@
+%section
+  %h2 Host Provider Account: #{@host_provider_account.username}
+  %dl.dl-horizontal
+    %dt
+      %strong Host Provider:
+    %dd= @host_provider_account.host_provider.name
+
+    %dt
+      %strong Name:
+    %dd= @host_provider_account.name
+
+    %dt
+      %strong Username:
+    %dd= @host_provider_account.username
+
+    %dt
+      %strong Online:
+    %dd= @host_provider_account.online
+
+    %dt
+      %strong Total Storage:
+    %dd= @host_provider_account.total_storage
+
+    %dt
+      %strong Used Storage:
+    %dd= @host_provider_account.used_storage
+
+    %dt
+      %strong Upload Count:
+    %dd= @host_provider_account.uploads.count
+
+  = link_to 'Edit', edit_host_provider_account_path(@host_provider_account)
+  = link_to 'Back', host_provider_accounts_path
