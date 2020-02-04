@@ -7,7 +7,7 @@ class AddRoleAndUsernameToUsers < ActiveRecord::Migration[6.0]
         'consumer'
       );
     SQL
-    add_column :users, :role, :users_role
+    add_column :users, :role, :users_role, default: 'consumer'
     add_column :users, :username, :string
   end
 

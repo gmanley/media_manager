@@ -278,7 +278,7 @@ CREATE TABLE public.users (
     encrypted_password character varying(128) NOT NULL,
     confirmation_token character varying(128),
     remember_token character varying(128) NOT NULL,
-    role public.users_role,
+    role public.users_role DEFAULT 'consumer'::public.users_role,
     username character varying
 );
 
