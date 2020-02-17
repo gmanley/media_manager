@@ -30,13 +30,16 @@
         %ul.accordion-inner.unstyled.well
           %li
             %strong File Hash:
-            #{@video.file_hash}
+            = @video.file_hash
           %li
             %strong Air Date:
-            #{@video.formated_air_date}
+            = @video.formated_air_date
           %li
-            %strong External ID
-            #{@video.external_id}
+            %strong External ID:
+            = @video.external_id
+          %li
+            %strong Index Image
+            = link_to 'View', @video.snapshot_index.image_url(:large)
 
 - if policy(Upload).index?
   %section.uploads.col-10
