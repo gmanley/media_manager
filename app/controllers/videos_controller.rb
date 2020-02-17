@@ -22,6 +22,7 @@ class VideosController < ApplicationController
   def show
     authorize(@video)
     @uploads = policy_scope(@video.uploads)
+    @snapshots = @video.snapshots.processed.order(video_time: :asc)
     respond_with(@video)
   end
 

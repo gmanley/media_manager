@@ -11,13 +11,13 @@
 
 .slider-container.col-10
   %ul.snapshots.row
-    - @video.snapshots.order(video_time: :asc).processed.each do |snapshot|
+    - @snapshots.each do |snapshot|
       %li.col-12
         = image_tag(escape_snapshot_url(snapshot.image_url(:large)))
         %p.timestamp=snapshot.formated_video_time
 
   %ul.rslides_tabs.rslides1_tabs.row
-    - @video.snapshots.processed.each_with_index do |snapshot, i|
+    - @snapshots.each_with_index do |snapshot, i|
       %li
         = link_to '#', class: "rslides1_s#{i + 1}" do
           = image_tag(escape_snapshot_url(snapshot.image_url(:tiny)))
