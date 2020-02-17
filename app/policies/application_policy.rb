@@ -36,7 +36,7 @@ class ApplicationPolicy
 
   class Scope
     def initialize(user, scope)
-      @user = user
+      @user = user || User.new(role: 'guest')
       @scope = scope
     end
 

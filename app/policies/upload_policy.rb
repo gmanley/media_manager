@@ -3,7 +3,7 @@ class UploadPolicy < ApplicationPolicy
     user.role_class >= Roles[:consumer]
   end
 
-  class Scope
+  class Scope < Scope
     def resolve
       if user.role_class >= Roles[:contributor]
         scope.all

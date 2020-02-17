@@ -16,6 +16,19 @@ module ApplicationHelper
     end
   end
 
+  def build_nav_item(url:, text:)
+    html_class = 'nav-item'
+    html_class << ' active' if current_page?(url)
+    haml_tag :li, class: html_class do
+      haml_tag :a, class: 'nav-link', href: url do
+        haml_concat text
+        haml_tag :span, class: 'sr-only' do
+          'Current'
+        end
+      end
+    end
+  end
+
   private
 
   def flash_message(type, message)

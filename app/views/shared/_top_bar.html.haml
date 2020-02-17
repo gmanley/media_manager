@@ -1,2 +1,15 @@
-.navbar.navbar-dark.bg-dark
+.navbar.navbar-dark.bg-dark.navbar-expand
   %a.navbar-brand{href: '/'} Media Manager
+  %button.navbar-toggler{aria: {controls: 'navbarSupportedContent', expanded: 'false', label: 'Toggle navigation'}, data: { target: '#navbarSupportedContent', toggle: 'collapse' }, type: 'button' }
+    %span.navbar-toggler-icon
+  .collapse.navbar-collapse#navbarSupportedContent
+    %ul.navbar-nav.mr-auto
+      - build_nav_item(text: 'Home', url: '/')
+      - if policy(:admin).dashboard?
+        - build_nav_item(text: 'Admin', url: '/admin')
+
+  - if current_user
+    = link_to('Sign out', '/sign_out', class: 'btn btn-primary session-btn', method: 'delete')
+  - else
+    %a.btn.btn-primary.session-btn{href: '/sign_up'} Sign up
+    %a.btn.btn-success.session-btn{href: '/sign_in'} Sign in
