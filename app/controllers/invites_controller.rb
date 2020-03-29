@@ -1,4 +1,6 @@
 class InvitesController < ApplicationController
+  responders :flash, :http_cache, :collection
+
   respond_to :html
 
   before_action :require_login
@@ -6,7 +8,7 @@ class InvitesController < ApplicationController
 
   def index
     authorize(Invite)
-    @invites = policy_scope(Invite)
+    @invites = InviteDecorator.decorate_collection(policy_scope(Invite))
     respond_with(@invites)
   end
 
@@ -18,18 +20,7 @@ class InvitesController < ApplicationController
 
   def create
     authorize(Invite)
-    @invite = Invite.create(invite_params)
-    respond_with(@invite)
-  end
-
-  def edit
-    authorize(@invite)
-    respond_with(@invite)
-  end
-
-  def update
-    authorize(@invite)
-    @invite.update(invite_params)
+    @invite = Invite.create(permitted_attributes(Invite))
     respond_with(@invite)
   end
 
@@ -43,9 +34,5 @@ class InvitesController < ApplicationController
 
   def set_invite
     @invite = Invite.find(params[:id])
-  end
-
-  def invite_params
-    params.require(:invite).permit(:email, :role, :created_by_user_id)
   end
 end
