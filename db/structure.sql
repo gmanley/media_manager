@@ -24,6 +24,20 @@ COMMENT ON EXTENSION pg_trgm IS 'text similarity measurement and index searching
 
 
 --
+-- Name: pgcrypto; Type: EXTENSION; Schema: -; Owner: -
+--
+
+CREATE EXTENSION IF NOT EXISTS pgcrypto WITH SCHEMA public;
+
+
+--
+-- Name: EXTENSION pgcrypto; Type: COMMENT; Schema: -; Owner: -
+--
+
+COMMENT ON EXTENSION pgcrypto IS 'cryptographic functions';
+
+
+--
 -- Name: users_role; Type: TYPE; Schema: public; Owner: -
 --
 
@@ -119,6 +133,22 @@ CREATE SEQUENCE public.host_providers_id_seq
 --
 
 ALTER SEQUENCE public.host_providers_id_seq OWNED BY public.host_providers.id;
+
+
+--
+-- Name: invites; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.invites (
+    id uuid DEFAULT public.gen_random_uuid() NOT NULL,
+    email character varying NOT NULL,
+    role public.users_role DEFAULT 'consumer'::public.users_role,
+    created_by_user_id bigint NOT NULL,
+    redeemed_by_user_id bigint,
+    redeemed_at timestamp without time zone,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
 
 
 --
@@ -421,6 +451,14 @@ ALTER TABLE ONLY public.host_providers
 
 
 --
+-- Name: invites invites_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.invites
+    ADD CONSTRAINT invites_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: schema_migrations schema_migrations_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -488,6 +526,20 @@ CREATE INDEX index_host_provider_accounts_on_host_provider_id ON public.host_pro
 --
 
 CREATE INDEX index_host_providers_on_name ON public.host_providers USING btree (name);
+
+
+--
+-- Name: index_invites_on_created_by_user_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_invites_on_created_by_user_id ON public.invites USING btree (created_by_user_id);
+
+
+--
+-- Name: index_invites_on_redeemed_by_user_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_invites_on_redeemed_by_user_id ON public.invites USING btree (redeemed_by_user_id);
 
 
 --
@@ -588,6 +640,8 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20200123024406'),
 ('20200203005240'),
 ('20200203041456'),
-('20200204011815');
+('20200204011815'),
+('20200327222338'),
+('20200328012327');
 
 

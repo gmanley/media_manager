@@ -4,6 +4,8 @@ class ApplicationController < ActionController::Base
   include Clearance::Controller
   include Pundit
 
+  # after_action :verify_authorized
+
   self.responder = ApplicationResponder
   respond_to :html
 

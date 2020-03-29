@@ -1,6 +1,10 @@
 module Roles
   MAP = {}
 
+  def self.all
+    MAP
+  end
+
   def self.[](role)
     MAP[role.to_sym].new
   end

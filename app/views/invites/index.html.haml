@@ -1,0 +1,21 @@
+%h1 Invites
+%table.table
+  %thead
+    %tr
+      %th Email
+      %th Created By
+      %th Redeemed By
+      %th Redeemed At
+      %th Invite Link
+      %th
+  %tbody
+    - @invites.each do |invite|
+      %tr
+        %th= invite.email
+        %th= invite.created_by_user
+        %th= invite.redeemed_by_user
+        %th= invite.redeemed_at
+        %th= invite.invite_link
+        %td= link_to 'Destroy', host_provider_account, method: :delete, data: { confirm: 'Are you sure?' }
+%br/
+= link_to 'New Invite', new_invite_path

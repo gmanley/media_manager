@@ -1,5 +1,8 @@
 %section
-  %h2 Host Provider Account: #{@host_provider_account.username}
+  %h2
+    Host Provider Account:
+    = @host_provider_account.username
+
   %dl.dl-horizontal
     %dt
       %strong Host Provider:
@@ -29,5 +32,5 @@
       %strong Upload Count:
     %dd= @host_provider_account.uploads.count
 
-  = link_to 'Edit', edit_host_provider_account_path(@host_provider_account)
-  = link_to 'Back', host_provider_accounts_path
+  = link_to 'Edit', edit_admin_host_provider_account_path(@host_provider_account)
+  = link_to 'Back', admin_host_provider_accounts_path

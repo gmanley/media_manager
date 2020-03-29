@@ -14,7 +14,6 @@ gem 'turbolinks', '~> 5'
 gem 'haml' # Adds HAML support along with custom generators
 gem 'uglifier', '>= 1.3.0'
 gem 'jbuilder', '~> 2.7'
-
 gem 'image_processing', '~> 1.2'
 
 gem 'bootsnap', '>= 1.4.2', require: false
@@ -30,6 +29,7 @@ gem 'yajl-ruby'
 
 gem 'responders' # Customize respond_with behavior
 gem 'simple_form' # Better rails form helpers
+gem 'draper'
 # gem 'multi_fetch_fragments' # Speeds up collection partial rendering
 gem 'clearance'
 gem 'pundit'

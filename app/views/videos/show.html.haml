@@ -38,7 +38,7 @@
             %strong External ID:
             = @video.external_id
           %li
-            %strong Index Image
+            %strong Index Image:
             = link_to 'View', @video.snapshot_index.image_url(:large)
 
 - if policy(Upload).index?
@@ -58,11 +58,13 @@
       .card.bg-light
         .card-header
           %h4
-            %button.btn.btn-link.collapsed{type: 'button', data: {toggle: 'collapse', target: "##{section_name}-metadata"}, aria: { expanded: false, controls: "#{section_name}-metadata" }}
+            %button.btn.btn-link.collapsed{ type: 'button', data: { toggle: 'collapse', target: "##{section_name}-metadata" }, aria: { expanded: false, controls: "#{section_name}-metadata" }}
               = section_name.titleize
-        .collapse{id: "#{section_name}-metadata", data: { parent: '#metadata' }}
+        .collapse{ id: "#{section_name}-metadata", data: { parent: '#metadata' }}
           .card-body
             %ul.accordion-inner.unstyled.well
-              - section_content.first.each do |k, v|
-                %li <strong>#{k.titleize}</strong>: #{v}
+              - section_content.first.each do |name, value|
+                %li
+                  %strong #{name.titleize}:
+                  = value
 

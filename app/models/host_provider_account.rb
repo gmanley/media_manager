@@ -4,6 +4,7 @@ class HostProviderAccount < ApplicationRecord
 
   validates :username, presence: true
   validates :password, presence: true
+
   validates :host_provider, presence: true
   validates :name, presence: true, if: -> { host_provider.name == 'mega' }
 
