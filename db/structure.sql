@@ -143,8 +143,8 @@ CREATE TABLE public.invites (
     id uuid DEFAULT public.gen_random_uuid() NOT NULL,
     email character varying NOT NULL,
     role public.users_role DEFAULT 'consumer'::public.users_role,
-    created_by_user_id bigint NOT NULL,
-    redeemed_by_user_id bigint,
+    sender_id bigint NOT NULL,
+    recipient_id bigint,
     redeemed_at timestamp without time zone,
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL
@@ -529,17 +529,17 @@ CREATE INDEX index_host_providers_on_name ON public.host_providers USING btree (
 
 
 --
--- Name: index_invites_on_created_by_user_id; Type: INDEX; Schema: public; Owner: -
+-- Name: index_invites_on_recipient_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_invites_on_created_by_user_id ON public.invites USING btree (created_by_user_id);
+CREATE INDEX index_invites_on_recipient_id ON public.invites USING btree (recipient_id);
 
 
 --
--- Name: index_invites_on_redeemed_by_user_id; Type: INDEX; Schema: public; Owner: -
+-- Name: index_invites_on_sender_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_invites_on_redeemed_by_user_id ON public.invites USING btree (redeemed_by_user_id);
+CREATE INDEX index_invites_on_sender_id ON public.invites USING btree (sender_id);
 
 
 --

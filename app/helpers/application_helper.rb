@@ -1,6 +1,7 @@
+require 'simple_form/pundit_form_builder'
+
 # encoding: UTF-8
 module ApplicationHelper
-
   BOOTSTRAP_FLASH_CLASS = {
     alert:   'warning',
     notice:  'info',
@@ -27,6 +28,11 @@ module ApplicationHelper
         end
       end
     end
+  end
+
+  def simple_form_with_policy_for(object, *args, &block)
+    options = args.extract_options!
+    simple_form_for(object, *(args << options.merge(builder: SimpleForm::PunditFormBuilder)), &block)
   end
 
   private

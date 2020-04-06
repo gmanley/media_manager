@@ -1,13 +1,11 @@
 %h1 New Invite
-= simple_form_for(@invite) do |f|
+= simple_form_with_policy_for(@invite, policy: policy(@invite)) do |f|
   = f.error_notification
   = f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present?
   .form-inputs
     = f.input :email
-    - if policy(@invite).permitted_attributes.include?(:created_by_user_id)
-      = f.association :created_by_user, label_method: :email, selected: current_user.id
-    - if policy(@invite).permitted_attributes.include?(:role)
-      = f.input :role, collection: Roles.all.keys, selected: User.column_defaults['role']
+    = f.association :sender, label_method: :email, selected: current_user.id
+    = f.input :role, collection: Roles.all.keys, selected: User.column_defaults['role']
   .form-actions
     = f.button :submit, class: 'btn-primary'
 

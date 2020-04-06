@@ -23,7 +23,7 @@ class InvitePolicy < ApplicationPolicy
 
   def permitted_attributes
     if admin?
-      [:email, :role, :created_by_user_id]
+      [:email, :role, :sender_id]
     else
       [:email]
     end
@@ -37,10 +37,10 @@ class InvitePolicy < ApplicationPolicy
 
   class Scope < Scope
     def resolve
-      if user.role_class >= Roles[:contributor]
+      if user.role_class >= Roles[:admin]
         scope.all
       else
-        scope.where(public: true)
+        scope.where(sender_id: user.id)
       end
     end
   end
