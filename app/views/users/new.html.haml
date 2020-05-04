@@ -1,6 +1,7 @@
 %section#clearance.sign-up
   %h2= t('.title')
   = simple_form_for @user do |f|
+    = f.input :invite_id, as: :hidden, input_html: { value: params[:invite_id] }
     = f.input :email
     = f.input :password
     .form-group

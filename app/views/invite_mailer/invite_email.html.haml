@@ -1,0 +1,9 @@
+%h1
+  Welcome to #{ENV['WEBSITE_NAME']}, #{@invite.email}
+%p
+  You have been invited to #{ENV['WEBSITE_NAME']} by #{@invite.sender.username || @invite.sender.email}.
+  %br/
+%p
+  To join the site, follow this link: #{@url}.
+
+%p Enjoy!

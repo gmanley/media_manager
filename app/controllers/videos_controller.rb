@@ -6,7 +6,7 @@ class VideosController < ApplicationController
   def index
     authorize(Video)
     if query.present?
-      @videos = VideosIndex::Video.query(match: {name: query})
+      @videos = VideosIndex::Video.query(match: { name: query })
         .order(sort_column(search_sort_columns) => sort_direction)
         .page(page).per(per_page)
       @video_count = @videos.size

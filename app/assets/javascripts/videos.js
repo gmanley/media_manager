@@ -3,7 +3,6 @@ $(document).on('ready turbolinks:load', function() {
     maxwidth: 800,
     auto: false,
     pager: true,
-    // customPager: true,
     manualControls: '.rslides_tabs',
     speed: 300
   });

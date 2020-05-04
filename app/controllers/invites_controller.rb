@@ -20,7 +20,11 @@ class InvitesController < ApplicationController
 
   def create
     authorize(Invite)
-    @invite = Invite.create(permitted_attributes(Invite))
+
+    attributes = permitted_attributes(Invite)
+    attributes.merge!(sender_id: current_user.id) unless attributes[:sender_id]
+
+    @invite = CreateInvite.new(attributes).perform
     respond_with(@invite)
   end
 

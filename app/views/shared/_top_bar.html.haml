@@ -7,6 +7,8 @@
       - build_nav_item(text: 'Home', url: '/')
       - if policy(:admin).dashboard?
         - build_nav_item(text: 'Admin', url: '/admin')
+      - if policy(:invite).index?
+        - build_nav_item(text: 'Invites', url: '/invites')
 
   - if current_user
     = link_to('Sign out', '/sign_out', class: 'btn btn-primary session-btn', method: 'delete')

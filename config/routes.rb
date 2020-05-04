@@ -11,7 +11,7 @@ Rails.application.routes.draw do
     get 'page/:page', action: :index, on: :collection
   end
 
-  resources :invites, only: [:index, :new, :create, :destroy, :edit]
+  resources :invites, only: [:index, :new, :create, :destroy]
 
   resources :passwords, controller: 'clearance/passwords', only: [:create, :new]
   resource :session, controller: 'clearance/sessions', only: [:create]
