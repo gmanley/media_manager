@@ -4,14 +4,19 @@ class UsersController < Clearance::BaseController
 
   def new
     @invite = Invite.find_by(id: params[:invite_id])
-    @user = user_from_params.merge(email: @invite.email, invite_id: params[:invite_id])
+
+    attributes = permitted_attributes(User)
+    attributes.merge!(email: @invite.email, invite_id: params[:invite_id])
+
+    @user = User.new(attributes)
     authorize(User)
     render template: "users/new"
   end
 
+
   def create
     @invite = Invite.find_by(id: params[:invite_id])
-    @user = user_from_params
+    @user = User.new(permitted_attributes(User))
     @user.role = @invite.role if @invite
 
     authorize(@user)
@@ -43,17 +48,7 @@ class UsersController < Clearance::BaseController
     Clearance.configuration.redirect_url
   end
 
-  def user_from_params
-    email = user_params.delete(:email)
-    password = user_params.delete(:password)
-
-    Clearance.configuration.user_model.new(user_params).tap do |user|
-      user.email = email
-      user.password = password
-    end
-  end
-
   def user_params
-    params[Clearance.configuration.user_parameter] || Hash.new
+    params.require(:user).permit(:email, :password, :invite_id)
   end
 end

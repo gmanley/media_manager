@@ -20,6 +20,6 @@ class InviteDecorator < Draper::Decorator
   end
 
   def invite_link
-    helpers.edit_invite_url(object)
+    helpers.sign_up_url(invite_id: object.id)
   end
 end

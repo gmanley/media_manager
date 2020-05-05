@@ -1,8 +1,19 @@
 class UserPolicy < ApplicationPolicy
   def create?
-    invite = Invite.find_by(id: record.invite_id)
-    return false unless invite
-    invite.redeemed_at.nil?
+    if record.invite_id
+      invite = Invite.find_by(id: record.invite_id)
+      if invite
+        if invite.redeemed_at.nil?
+          true
+        else
+          raise Pundit::NotAuthorizedError, reason: 'user.already_redeemed_invite'
+        end
+      else
+        raise Pundit::NotAuthorizedError, reason: 'user.no_invite'
+      end
+    else
+      raise Pundit::NotAuthorizedError, reason: 'user.no_invite'
+    end
   end
 
   def update?

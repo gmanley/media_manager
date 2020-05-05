@@ -20,4 +20,8 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: "Hello world"
+  pundit:
+    errors:
+      user:
+        no_invite: 'An invite is currently required to sign up.'
+        already_redeemed_invite: 'This invite was already redeemed.'
