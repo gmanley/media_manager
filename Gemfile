@@ -21,6 +21,7 @@ gem 'bootsnap', '>= 1.4.2', require: false
 gem 'pg', '>= 0.18', '< 2.0'
 gem 'kaminari'
 gem 'chewy'
+gem 'paper_trail'
 
 gem 'jquery-datatables'
 

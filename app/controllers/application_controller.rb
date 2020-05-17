@@ -4,7 +4,7 @@ class ApplicationController < ActionController::Base
   include Clearance::Controller
   include Pundit
 
-  # after_action :verify_authorized
+  before_action :set_paper_trail_whodunnit
 
   self.responder = ApplicationResponder
   respond_to :html

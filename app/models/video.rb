@@ -13,6 +13,8 @@ class Video < ApplicationRecord
   has_many :uploads
 
   before_create :set_name
+  
+  has_paper_trail
 
   # From the samples I used this value is 1.333.
   NON_SQUARE_PIXEL_ASPECT_RATIO = (1.1..)
