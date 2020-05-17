@@ -5,7 +5,7 @@
     = f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present?
     .form-inputs
       = f.input :name
-      = f.input :air_date
+      = f.input :air_date, as: :string, input_html: { value: localize(f.object.air_date, format: "%Y.%m.%d") }
       = f.input :external_id, label: 'External ID'
     .form-actions
       = f.button :submit, class: 'btn-primary'
