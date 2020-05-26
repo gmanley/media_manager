@@ -25,3 +25,4 @@ en:
       user:
         no_invite: 'An invite is currently required to sign up.'
         already_redeemed_invite: 'This invite was already redeemed.'
+        invalid_invite: 'This invite is no longer valid.'

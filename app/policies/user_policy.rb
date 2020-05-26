@@ -1,4 +1,18 @@
 class UserPolicy < ApplicationPolicy
+  def new?
+    if Rails.application.config.settings.invite_only?
+      if record.invite_id
+        if Invite.find_by(id: record.invite_id)
+          true
+        else
+          raise Pundit::NotAuthorizedError, reason: 'user.invalid_invite'
+        end
+      else
+        raise Pundit::NotAuthorizedError, reason: 'user.no_invite'
+      end
+    end
+  end
+
   def create?
     if record.invite_id
       invite = Invite.find_by(id: record.invite_id)
@@ -9,10 +23,12 @@ class UserPolicy < ApplicationPolicy
           raise Pundit::NotAuthorizedError, reason: 'user.already_redeemed_invite'
         end
       else
-        raise Pundit::NotAuthorizedError, reason: 'user.no_invite'
+        raise Pundit::NotAuthorizedError, reason: 'user.invalid_invite'
       end
-    else
+    elsif Rails.application.config.settings.invite_only?
       raise Pundit::NotAuthorizedError, reason: 'user.no_invite'
+    else
+      true
     end
   end
 

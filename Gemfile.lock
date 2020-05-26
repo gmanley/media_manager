@@ -30,6 +30,13 @@ GIT
   specs:
     mail_room (0.10.0)
 
+GIT
+  remote: https://github.com/varvet/pundit.git
+  revision: df96d2ae6bcf28991c1501d5ff0bde4c42aa4acd
+  specs:
+    pundit (2.1.0)
+      activesupport (>= 3.0.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -437,8 +444,6 @@ GEM
     public_suffix (4.0.2)
     puma (4.3.1)
       nio4r (~> 2.0)
-    pundit (2.1.0)
-      activesupport (>= 3.0.0)
     rabl (0.14.2)
       activesupport (>= 2.3.14)
     rack (2.0.8)
@@ -625,7 +630,7 @@ DEPENDENCIES
   pg (>= 0.18, < 2.0)
   pry-rails
   puma (~> 4.1)
-  pundit
+  pundit!
   rabl
   rails (~> 6.0.2, >= 6.0.2.1)
   responders

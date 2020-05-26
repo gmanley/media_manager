@@ -49,7 +49,7 @@ class Video < ApplicationRecord
   end
 
   def self.with_multiple_source_files
-    # FIXME: This scope doesn't behave has expected when calling `count` on the results.
+    # FIXME: This scope doesn't behave as expected when calling `count` on the results.
     left_joins(:source_files).having('count(source_files.id) > 0').group('videos.id')
   end
 

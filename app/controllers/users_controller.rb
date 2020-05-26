@@ -3,13 +3,15 @@ class UsersController < Clearance::BaseController
   skip_before_action :require_login, only: [:create, :new], raise: false
 
   def new
-    @invite = Invite.find_by(id: params[:invite_id])
+    attributes = {}
 
-    attributes = permitted_attributes(User)
-    attributes.merge!(email: @invite.email, invite_id: params[:invite_id])
+    if params[:invite_id]
+      @invite = Invite.find_by(id: params[:invite_id])
+      attributes.merge!(email: @invite.email, invite_id: params[:invite_id]) if @invite
+    end
 
     @user = User.new(attributes)
-    authorize(User)
+    authorize(@user)
     render template: "users/new"
   end
 
