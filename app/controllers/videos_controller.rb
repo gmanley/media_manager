@@ -9,9 +9,7 @@ class VideosController < ApplicationController
       @videos = VideosIndex::Video.query(match: { name: query })
         .order(sort_column(search_sort_columns) => sort_direction)
         .page(page).per(per_page)
-      @video_count = @videos.size
     else
-      @video_count = Video.count
       @videos = Video.order(sort_column => sort_direction)
         .page(page).per(per_page)
     end

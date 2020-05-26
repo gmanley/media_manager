@@ -1,7 +1,7 @@
 object false
 node(:draw) { params[:draw].to_i }
 node(:recordsTotal) { Video.count }
-node(:recordsFiltered) { @video_count }
+node(:recordsFiltered) { @videos.total_count }
 node(:data) do
   @videos.map do |video|
     [
