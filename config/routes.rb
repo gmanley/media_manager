@@ -15,12 +15,12 @@ Rails.application.routes.draw do
 
   resources :invites, only: [:index, :new, :create, :destroy]
 
-  resources :passwords, controller: 'clearance/passwords', only: [:create, :new]
+  resources :passwords, controller: 'passwords', only: [:create, :new]
   resource :session, controller: 'sessions', only: [:create]
 
   resources :users, only: [:create, :show] do
     resource :password,
-      controller: 'clearance/passwords',
+      controller: 'passwords',
       only: [:edit, :update]
   end
 
