@@ -1,9 +1,9 @@
 .navbar.navbar-dark.bg-dark.navbar-expand
-  %a.navbar-brand{href: '/'} Media Manager
-  %button.navbar-toggler{ aria: {controls: 'navbarSupportedContent', expanded: 'false', label: 'Toggle navigation'}, data: { target: '#navbarSupportedContent', toggle: 'collapse' }, type: 'button' }
+  %a.navbar-brand{ href: '/' } Media Manager
+  %button.navbar-toggler{ aria: { controls: 'navbarSupportedContent', expanded: 'false', label: 'Toggle navigation' }, data: { target: '#navbarSupportedContent', toggle: 'collapse' }, type: 'button' }
     %span.navbar-toggler-icon
-  - unless @public_pages
-    .collapse.navbar-collapse#navbarSupportedContent
+  .collapse.navbar-collapse#navbarSupportedContent
+    - unless @public_pages
       %ul.navbar-nav.mr-auto
         - build_nav_item(text: 'Home', url: '/')
         - if policy(:admin).dashboard?
@@ -15,5 +15,5 @@
     = link_to('Sign out', '/sign_out', class: 'btn btn-primary session-btn', method: 'delete')
   - else
     - unless User.invite_only?
-      %a.btn.btn-primary.session-btn{href: '/sign_up'} Sign up
-    %a.btn.btn-success.session-btn{href: '/sign_in'} Sign in
+      %a.btn.btn-primary.session-btn{ href: '/sign_up' } Sign up
+    %a.btn.btn-success.session-btn{ href: '/sign_in' } Sign in
