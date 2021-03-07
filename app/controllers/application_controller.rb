@@ -15,6 +15,17 @@ class ApplicationController < ActionController::Base
 
   private
 
+  def ensure_minimum_role
+    unless current_user&.meets_minimum_role?
+      if Rails.application.config.invite_only?
+        redirect_to '/closed'
+      else
+        flash[:alert] = 'An account is required'
+        redirect_to signup_path
+      end
+    end
+  end
+
   def user_not_authorized(e)
     message = e.reason ? t("pundit.errors.#{e.reason}") : 'You are not authorized to perform this action.'
     flash[:alert] = message

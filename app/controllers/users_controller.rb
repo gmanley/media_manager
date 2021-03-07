@@ -24,7 +24,7 @@ class UsersController < Clearance::BaseController
     authorize(@user)
 
     if @user.save
-      @invite&.update(recipient_id: @user.id, redeemed_at: DateTime.now)
+      @invite&.update!(recipient_id: @user.id, redeemed_at: DateTime.now)
 
       sign_in @user
       redirect_back_or url_after_create

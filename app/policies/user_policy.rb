@@ -14,6 +14,8 @@ class UserPolicy < ApplicationPolicy
   end
 
   def create?
+    return true unless Rails.application.config.invite_only?
+
     if record.invite_id
       invite = Invite.find_by(id: record.invite_id)
       if invite
