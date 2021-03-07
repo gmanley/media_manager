@@ -15,7 +15,7 @@ class User < ApplicationRecord
   end
 
   def meets_minimum_role?
-    role_class >= minimum_role
+    role_class >= self.class.minimum_role
   end
 
   def role_class

@@ -3,10 +3,6 @@ class ApplicationPolicy
 
   def initialize(user, record)
     @user = user || User.new(role: 'guest')
-    minimum_role = Roles[Rails.application.config.settings.minimum_role]
-    if @user.role_class < minimum_role
-      raise Pundit::NotAuthorizedError, "You don't mean the minium user role of #{minimum_role}"
-    end
     @record = record
   end
 

@@ -1,6 +1,7 @@
 class UsersController < Clearance::BaseController
   before_action :redirect_signed_in_users, only: [:create, :new]
   skip_before_action :require_login, only: [:create, :new], raise: false
+  skip_before_action :ensure_minimum_role, only: [:create, :new]
 
   def new
     attributes = {}
