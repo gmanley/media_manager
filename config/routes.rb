@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
   root to: 'videos#index'
 
+  get '/closed', to: 'public_pages#closed'
+
   namespace :admin do
     root 'pages#dashboard'
     resources :host_provider_accounts

@@ -12,7 +12,7 @@ class UsersController < Clearance::BaseController
 
     @user = User.new(attributes)
     authorize(@user)
-    render template: "users/new"
+    render template: 'users/new'
   end
 
 

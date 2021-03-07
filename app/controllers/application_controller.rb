@@ -4,6 +4,7 @@ class ApplicationController < ActionController::Base
   include Clearance::Controller
   include Pundit
 
+  before_action :ensure_minimum_role
   before_action :set_paper_trail_whodunnit
 
   self.responder = ApplicationResponder
@@ -17,7 +18,7 @@ class ApplicationController < ActionController::Base
 
   def ensure_minimum_role
     unless current_user&.meets_minimum_role?
-      if Rails.application.config.invite_only?
+      if User.invite_only?
         redirect_to '/closed'
       else
         flash[:alert] = 'An account is required'

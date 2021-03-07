@@ -7,7 +7,7 @@ class User < ApplicationRecord
   attr_accessor :invite_id
 
   def self.invite_only?
-    Rails.application.config.invite_only?
+    Rails.application.config.settings.invite_only?
   end
 
   def self.minimum_role
