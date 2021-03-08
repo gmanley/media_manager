@@ -6,6 +6,6 @@
     .form-group
       = f.button :submit, class: 'btn-primary'
     .other-links
-      - if Clearance.configuration.allow_sign_up?
+      - unless User.invite_only?
         = link_to t('.sign_up'), sign_up_path, class: 'btn btn-info'
       = link_to t('.forgot_password'), new_password_path, class: 'btn btn-info'

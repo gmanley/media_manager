@@ -1,22 +1,22 @@
 class VideoPolicy < ApplicationPolicy
   def download?
-    contributor?
+    user.meets_minimum_role? && contributor?
   end
 
   def update?
-    contributor?
+    user.meets_minimum_role? && contributor?
   end
 
   def destroy?
-    admin?
+    user.meets_minimum_role? && admin?
   end
 
   def index?
-    true
+    user.meets_minimum_role?
   end
 
   def show?
-    true
+    user.meets_minimum_role?
   end
 
   private

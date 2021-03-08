@@ -1,14 +1,14 @@
 class InvitePolicy < ApplicationPolicy
   def index?
-    true
+    admin?
   end
 
   def show?
-    true
+    admin?
   end
 
   def create?
-    true
+    admin?
   end
 
   def destroy?

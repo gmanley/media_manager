@@ -18,8 +18,8 @@ class UsersController < Clearance::BaseController
 
 
   def create
-    @invite = Invite.find_by(id: params[:invite_id])
     @user = User.new(permitted_attributes(User))
+    @invite = Invite.find_by(id: @user.invite_id)
     @user.role = @invite.role if @invite
 
     authorize(@user)
@@ -52,6 +52,6 @@ class UsersController < Clearance::BaseController
   end
 
   def user_params
-    params.require(:user).permit(:email, :password, :invite_id)
+    params.require(:user).permit(:email, :password, :password_confirmation, :invite_id)
   end
 end

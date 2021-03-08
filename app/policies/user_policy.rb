@@ -1,6 +1,6 @@
 class UserPolicy < ApplicationPolicy
   def new?
-    if Rails.application.config.settings.invite_only?
+    if User.invite_only?
       if record.invite_id
         if Invite.find_by(id: record.invite_id)
           true
@@ -14,7 +14,7 @@ class UserPolicy < ApplicationPolicy
   end
 
   def create?
-    return true unless Rails.application.config.invite_only?
+    return true unless User.invite_only?
 
     if record.invite_id
       invite = Invite.find_by(id: record.invite_id)
@@ -27,7 +27,7 @@ class UserPolicy < ApplicationPolicy
       else
         raise Pundit::NotAuthorizedError, reason: 'user.invalid_invite'
       end
-    elsif Rails.application.config.settings.invite_only?
+    elsif User.invite_only?
       raise Pundit::NotAuthorizedError, reason: 'user.no_invite'
     else
       true
