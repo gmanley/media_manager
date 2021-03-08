@@ -57,6 +57,18 @@ module HostProviders
       }
     end
 
+    def upload_valid?(upload)
+      args = [
+        'megals',
+        "-u #{@username}",
+        "-p #{@password}",
+        upload.remote_path.shellescape
+      ]
+
+      response = %x[#{args.join(' ')}]
+      response.strip == upload.remote_path
+    end
+
     def upload(video, remote_path: nil)
       args = [
         'megaput',
