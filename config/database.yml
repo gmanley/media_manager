@@ -23,7 +23,7 @@ default: &default
 
 development:
   <<: *default
-  database: media_manager_development
+  database: media_manager_development_new
 
   # The specified database role being used to connect to postgres.
   # To create additional roles in postgres see `$ createuser --help`.
@@ -80,4 +80,4 @@ test:
 #
 production:
   <<: *default
-  url: <%= ENV['DATABASE_URL'] %>
+  database: media_manager_production
