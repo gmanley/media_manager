@@ -3,8 +3,8 @@ body.videos {
     .slider-container {
       margin: 0 auto;
       float: none;
-      max-width: 820px;
-      background: linear-gradient(top, #333, #222);
+      max-width: 790px;
+      background: linear-gradient(#333, #222);
       padding: 18px 20px;
 
       .rslides {
@@ -17,7 +17,7 @@ body.videos {
         li {
           margin: 0;
           padding: 10px;
-          background: linear-gradient(top, #333, #222);
+          background: linear-gradient(#333, #222);
           position: absolute;
           display: none;
           left: 0;
@@ -31,6 +31,7 @@ body.videos {
           img {
             margin: 0 auto;
             display: block;
+            width: 100%;
           }
 
           .timestamp {
@@ -50,7 +51,7 @@ body.videos {
         list-style: none;
         box-shadow: 0 0 1px rgba(255, 255, 255, 0.3),
           inset 0 0 5px rgba(0, 0, 0, 1);
-        background: linear-gradient(top, #333, #222);
+        background: linear-gradient(#333, #222);
 
         li {
           float: left;

@@ -1,4 +1,4 @@
 = link_to(video, class: 'thumbnail mb-3 col-xxxl-3 col-xxl-4 col-xl-5 col-md-6 col-sm-12') do
   %h4.thumbnail-title= video.name
   - if video.snapshot_index
-    = image_tag(url_for(video.snapshot_index.image.variant(resize_to_limit: [400, 400])), class: 'img-fluid')
+    = image_tag(url_for(video.snapshot_index.image.variant(resize_to_fit: [500, 500])), class: 'img-fluid')

@@ -1,6 +1,6 @@
 $(document).on('ready turbolinks:load', function() {
   $('.snapshots').responsiveSlides({
-    maxwidth: 800,
+    maxwidth: 750,
     auto: false,
     pager: true,
     manualControls: '.rslides_tabs',
