@@ -33,6 +33,8 @@ module MediaManager
 
     config.active_storage.variant_processor = :vips
 
+    config.action_mailbox.ingress = :relay
+
     config.generators do |g|
       g.test_framework      :rspec, fixture: true
       g.fixture_replacement :fabrication

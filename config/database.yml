@@ -80,6 +80,4 @@ test:
 #
 production:
   <<: *default
-  database: media_manager_production
-  username: media_manage
-  password: <%= ENV['MEDIA_MANAGER_DATABASE_PASSWORD'] %>
+  url: <%= ENV['DATABASE_URL'] %>

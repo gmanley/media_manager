@@ -134,10 +134,6 @@ class Video < ApplicationRecord
     end
   end
 
-  def ffmpeg
-    @ffmpeg ||= FFMPEG::Movie.new(file_path)
-  end
-
   def set_name
     self.name = default_name
   end

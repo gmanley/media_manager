@@ -36,7 +36,6 @@ gem 'clearance'
 gem 'pundit', github: 'varvet/pundit'
 
 gem 'rmagick', github: 'rmagick/rmagick'
-# gem 'streamio-ffmpeg', github: 'streamio/streamio-ffmpeg'
 
 gem 'nokogiri'
 gem 'nori', '~> 1.1.0'
