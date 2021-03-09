@@ -57,6 +57,8 @@ gem 'puma', '~> 4.1'
 
 gem 'pry-rails' # Replaces regular rails console with a pry session
 
+gem 'dotenv-rails', github: 'bkeepers/dotenv'
+
 group :development do
   gem 'better_errors' # Amazing replacement of default rails error page
   gem 'binding_of_caller', platform: :ruby # Needed by better_errors for enhanced functionality
@@ -75,7 +77,6 @@ group :test do
 end
 
 group :development, :test do
-  gem 'dotenv-rails', github: 'bkeepers/dotenv'
   gem 'rspec-rails' # Test framework
   gem 'fabrication' # Fixtures replacement
   gem 'ffaker' # Test data generation
