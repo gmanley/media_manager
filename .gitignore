@@ -30,3 +30,5 @@ yarn-debug.log*
 !/solr/*/data/.keep
 
 .env
+
+/config/credentials/production.key
