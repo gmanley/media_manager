@@ -1,13 +1,18 @@
 class VideosIndex < Chewy::Index
   settings analysis: {
+    tokenizer: {
+      my_tokenizer: {
+        type: 'standard'
+      }
+    },
     analyzer: {
       video_file_name: {
-        tokenizer: 'standard',
+        tokenizer: 'my_tokenizer',
         filter: [
           'square_bracket_remover',
           'parentheses_remover',
           'date_normalizer',
-          'standard',
+          'ngram',
           'lowercase',
           'porter_stem'
         ]
@@ -30,7 +35,7 @@ class VideosIndex < Chewy::Index
         replacement: '$1 $2 $3'
       },
       ngram: {
-        type: 'ngram',
+        type: 'edge_ngram',
         min_gram: 3,
         max_gram: 15
       }

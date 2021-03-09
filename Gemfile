@@ -3,7 +3,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '2.6.5'
 
-gem 'rails', '~> 6.0.2', '>= 6.0.2.1'
+gem 'rails', '~> 6.1'
 
 gem 'sass-rails', '>= 6'
 gem 'bourbon', github: 'thoughtbot/bourbon'
@@ -14,7 +14,7 @@ gem 'turbolinks', '~> 5'
 gem 'haml' # Adds HAML support along with custom generators
 gem 'uglifier', '>= 1.3.0'
 gem 'jbuilder', '~> 2.7'
-gem 'image_processing', '~> 1.2'
+gem 'image_processing'#, '~> 1.2'
 
 gem 'bootsnap', '>= 1.4.2', require: false
 
@@ -34,9 +34,7 @@ gem 'draper'
 # gem 'multi_fetch_fragments' # Speeds up collection partial rendering
 gem 'clearance'
 gem 'pundit', github: 'varvet/pundit'
-gem 'carrierwave' # File uploading
-gem 'mini_magick' # Image processing (rmagick alternative)
-gem 'fog' # Cloud service ruby client (used by carrierwave for S3 support)
+
 gem 'rmagick', github: 'rmagick/rmagick'
 # gem 'streamio-ffmpeg', github: 'streamio/streamio-ffmpeg'
 
@@ -78,7 +76,7 @@ group :test do
 end
 
 group :development, :test do
-  gem 'dotenv-rails'
+  gem 'dotenv-rails', github: 'bkeepers/dotenv'
   gem 'rspec-rails' # Test framework
   gem 'fabrication' # Fixtures replacement
   gem 'ffaker' # Test data generation

@@ -13,14 +13,14 @@
   %ul.snapshots.row
     - @snapshots.each do |snapshot|
       %li.col-12
-        = image_tag(escape_snapshot_url(snapshot.image_url(:large)))
+        = image_tag(escape_snapshot_url(url_for(snapshot.image.variant(resize_to_fit: [600, 600]))))
         %p.timestamp=snapshot.formated_video_time
 
   %ul.rslides_tabs.rslides1_tabs.row
     - @snapshots.each_with_index do |snapshot, i|
       %li
         = link_to '#', class: "rslides1_s#{i + 1}" do
-          = image_tag(escape_snapshot_url(snapshot.image_url(:tiny)))
+          = image_tag(escape_snapshot_url(url_for(snapshot.image.variant(resize_to_fill: [75, 75]))))
 
 %section.extra-info.col-10
   %h3 Extra Info
@@ -39,7 +39,7 @@
             = @video.external_id
           %li
             %strong Index Image:
-            = link_to 'View', @video.snapshot_index.image_url(:large)
+            = link_to 'View', @video.snapshot_index.image.variant(resize_to_limit: [600, 600])
 
 - if policy(Upload).index?
   %section.uploads.col-10

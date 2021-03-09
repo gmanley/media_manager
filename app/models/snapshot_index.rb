@@ -2,7 +2,10 @@ class SnapshotIndex < ApplicationRecord
   belongs_to :video
   has_many :snapshots
 
-  mount_uploader :image, ImageUploader
+  has_one_attached :image do |attachable|
+    attachable.variant :large, resize_to_limit: [600, 600]
+    attachable.variant :medium, resize_to_limit: [400, 400]
+  end
 
   def total_snapshots
     grid_size.reduce(1, :*)
@@ -26,7 +29,7 @@ class SnapshotIndex < ApplicationRecord
 
     video_height = video.height
     snapshots.each do |snapshot|
-      image = Magick::Image.from_blob(snapshot.image.read).first
+      image = Magick::Image.from_blob(snapshot.image.download).first
       image.annotate(Magick::Draw.new, 0, 0, 50, 10, snapshot.formated_video_time) do
         self.font_family = 'Helvetica'
         self.fill = 'white'
@@ -66,8 +69,14 @@ class SnapshotIndex < ApplicationRecord
     mosaic = b.mosaic
     mosaic.background_color = 'transparent'
     mosaic_io = StringIO.new(mosaic.to_blob)
-    mosaic_io.instance_eval { def original_filename; 'mosaic.png' end }
-    self.image = mosaic_io
+
+    image.attach(
+      io: StringIO.new(mosaic.to_blob),
+      filename: 'mosaic.png',
+      content_type: 'image/png',
+      identify: false
+    )
+
     save
   end
 end

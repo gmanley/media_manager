@@ -3,7 +3,10 @@ class Snapshot < ApplicationRecord
 
   delegate :video, to: :snapshot_index
 
-  mount_uploader :image, ImageUploader
+  has_one_attached :image do |attachable|
+    attachable.variant :large, resize_to_limit: [600, 600]
+    attachable.variant :tiny, resize_to_fill: [75, 75, 'North']
+  end
 
   def self.processed
     where(processed: true)
@@ -26,7 +29,12 @@ class Snapshot < ApplicationRecord
       args << "#{snapshot_path.shellescape} >/dev/null 2>&1"
 
       if system(args.join(' '))
-        self.image = File.open(snapshot_path)
+        self.image.attach(
+          io: File.open(snapshot_path),
+          filename: File.basename(snapshot_path),
+          content_type: 'image/jpeg',
+          identify: false
+        )
       else
         false
       end
