@@ -22,7 +22,7 @@ class ApplicationController < ActionController::Base
         redirect_to '/closed'
       else
         flash[:alert] = 'An account is required'
-        redirect_to signup_path
+        redirect_to sign_up_path
       end
     end
   end
