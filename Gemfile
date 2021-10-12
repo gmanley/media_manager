@@ -53,7 +53,7 @@ gem 'mail_room', git: 'https://github.com/tpitale/mail_room'
 # Required by mail_room if using sidekiq delivery_method
 gem 'charlock_holmes'
 
-gem 'puma', '~> 4.1'
+gem 'puma', '~> 4.3'
 
 gem 'pry-rails' # Replaces regular rails console with a pry session
 
